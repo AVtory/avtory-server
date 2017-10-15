@@ -16,7 +16,8 @@ async def hello(request):
     response.set_cookie('session_id', session_id)
     return response
 
-if __name__ == "__main__":
+
+def main():
     app = web.Application()
     app['env'] = Environment(
         loader=PackageLoader('avtory', 'templates'),
@@ -26,3 +27,7 @@ if __name__ == "__main__":
 
     app.router.add_get('/', hello)
     web.run_app(app)
+
+
+if __name__ == "__main__":
+    main()
