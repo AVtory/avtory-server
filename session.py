@@ -33,14 +33,19 @@ class SimpleSessionManager:
         self.sessions[session_id] = session_data
         return session_id, session_data
 
-    def get_session(self, request):
+    def get_session(self, request, admin_required=False):
         if ('session_id' in request.cookies and
                 request.cookies['session_id'] in self.sessions):
             session_id = request.cookies['session_id']
             session_data = self.sessions[session_id]
             session_data['active'] = time.time()
 
-            return session_id, self.sessions[session_id]
+            if (admin_required
+                and ('privs' not in session_data
+                     or 'admin' != session_data['privs'])):
+                raise web.HTTPForbidden()
+
+            return session_id, session_data
         else:
             # user is logged out. This exception will propogate all the way
             # back to the router, redirecting the user to the login page.
