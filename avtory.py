@@ -3,8 +3,7 @@
 
 from aiohttp import web
 from jinja2 import Environment, PackageLoader, select_autoescape
-import asyncio
-import aiomysql
+from config import create_pool, read_config
 
 from session import SimpleSessionManager
 from users import create_user, login_get, login_post
@@ -22,28 +21,26 @@ async def hello(request):
 
 
 def main():
-    try:
-        loop = asyncio.get_event_loop()
-        pool = loop.run_until_complete(aiomysql.create_pool(
-            user='avtory',
-            unix_socket='/var/run/mysqld/mysqld.sock',
-            db='avtory'))
-        app = web.Application()
-        app['env'] = Environment(
-            loader=PackageLoader('avtory', 'templates'),
-            autoescape=select_autoescape(['html', 'xml'])
-        )
-        app['session'] = SimpleSessionManager()
-        app['pool'] = pool
+    app = web.Application()
+    app['config'] = read_config()
+    app['env'] = Environment(
+        loader=PackageLoader('avtory', 'templates'),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
+    app['session'] = SimpleSessionManager()
+    app['pool'] = create_pool(app['config'].items('mysql'))
 
-        app.router.add_get('/', hello)
-        app.router.add_get('/login', login_get)
-        app.router.add_post('/login', login_post)
-        app.router.add_get('/create_user', create_user)
-        app.router.add_post('/create_user', create_user)
-        web.run_app(app)
-    finally:
-        pool.close()
+    app.router.add_get('/', hello)
+    app.router.add_get('/login', login_get)
+    app.router.add_post('/login', login_post)
+    app.router.add_get('/create_user', create_user)
+    app.router.add_post('/create_user', create_user)
+
+    # after the pool has been created, we should remove access to the db
+    # password
+    app['config'].remove_option('mysql', 'password')
+
+    web.run_app(app)
 
 
 if __name__ == "__main__":
