@@ -7,8 +7,7 @@ import asyncio
 import aiomysql
 
 from session import SimpleSessionManager
-from login import login_get, login_post
-from users import create_user
+from users import create_user, login_get, login_post
 
 
 async def hello(request):
