@@ -6,17 +6,16 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from config import create_pool, read_config
 
 from session import SimpleSessionManager
-from users import create_user, login_get, login_post
+from users import create_user, login_get, login_post, users, logout
 
 
-async def hello(request):
+async def home(request):
     session_id, session_data = request.app['session'].get_session(request)
     response = web.Response(text=request
                             .app['env']
-                            .get_template('hello.html')
+                            .get_template('home.html')
                             .render(),
                             content_type="text/html")
-    response.set_cookie('session_id', session_id)
     return response
 
 
@@ -30,11 +29,13 @@ def main():
     app['session'] = SimpleSessionManager()
     app['pool'] = create_pool(app['config'].items('mysql'))
 
-    app.router.add_get('/', hello)
+    app.router.add_get('/', home)
     app.router.add_get('/login', login_get)
     app.router.add_post('/login', login_post)
     app.router.add_get('/create_user', create_user)
     app.router.add_post('/create_user', create_user)
+    app.router.add_get('/users', users)
+    app.router.add_get('/logout', logout)
 
     # after the pool has been created, we should remove access to the db
     # password

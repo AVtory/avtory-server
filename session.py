@@ -13,6 +13,14 @@ class SimpleSessionManager:
         self.timeout = timeout
         self.cleanup = asyncio.ensure_future(self.clean_expired(period))
 
+    async def logout(self, session_id):
+        try:
+            del self.sessions[session_id]
+        # If a user is trying to log out, we don't actually care if they have
+        # a valid session.
+        except KeyError:
+            pass
+
     async def clean_expired(self, period):
         while True:
             await asyncio.sleep(period * 60)

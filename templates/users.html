@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}User List{% endblock %}
+{% block content %}
+<div>
+  <a href="create_user">Create User</a>
+</div>
+<table>
+  <tr>
+    <th>User Name</th>
+    <th>Name</th>
+    <th>E-Mail</th>
+    <th>Privileges</th>
+  </tr>
+  {% for userdata in userlist.values() %}
+  <tr>
+    {% for data in userdata %}
+    <td>{{ data|e }}</td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

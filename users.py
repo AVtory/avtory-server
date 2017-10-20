@@ -15,6 +15,15 @@ def hash_pw(password, salt, work_factor):
     return pbkdf2_hmac('sha512', password, salt, 1 << work_factor, dklen=64)
 
 
+async def logout(request):
+    session_id, session_data = (request.app['session'].get_session(request))
+    response = web.Response(text='''<html><head>
+    <meta http-equiv="refresh" content="0; url=/" />
+    </head></html>''', content_type='text/html')
+    response.set_cookie('session_id', 'logged out')
+    return response
+
+
 async def insert_user(pool, username, password, admin='user',
                       email=None, name=None):
         salt = secrets.token_urlsafe(32).encode()
@@ -63,6 +72,28 @@ async def login_get(request):
                         .get_template('login.html')
                         .render(),
                         content_type='text/html')
+
+
+async def users(request):
+    session_id, session_data = (request
+                                .app['session']
+                                .get_session(request, True))
+
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                """SELECT username, realname, email, privs
+                FROM users""")
+            userlist = {username: [username, realname, email, privs]
+                        for username, realname, email, privs
+                        in await cur.fetchall()}
+
+    response = web.Response(text=request.app['env']
+                            .get_template('users.html')
+                            .render(userlist=userlist),
+                            content_type='text/html')
+
+    return response
 
 
 async def login_post(request):
