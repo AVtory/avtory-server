@@ -108,8 +108,11 @@ async def login_post(request):
                 WHERE username=%s""",
                 username)
             if cur.rowcount == 0:
-                print("invalid login")
-                raise web.HTTPFound('/login')
+                return web.Response(
+                    text=request.app['env']
+                    .get_template('login.html')
+                    .render(error_msg="Invalid username or password"),
+                    content_type='text/html')
             password_hash, salt, work_factor, privs = await cur.fetchone()
             salt = salt.encode()
             password_hash = b64decode(password_hash)
@@ -124,8 +127,11 @@ async def login_post(request):
         response.set_cookie('session_id', session_id)
         return response
     else:
-        print("invalid login")
-        raise web.HTTPFound('/login')
+        return web.Response(
+            text=request.app['env']
+            .get_template('login.html')
+            .render(error_msg="Invalid username or password"),
+            content_type='text/html')
 
 
 if __name__ == "__main__":

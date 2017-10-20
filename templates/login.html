@@ -1,10 +1,12 @@
-<html>
-  <title>AVtory</title>
-  <body>
-    <form action="login" method="post">
-      <label for="username">username:</label><input id="username" name="username" type="text" />
-      <label for="password">password:</label><input id="password" name="password" type="password" />
-      <input type="submit" value="Submit" />
-    </form>
-  </body>
-</html>
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div>
+  {{ error_msg }}
+</div>
+<form action="login" method="post">
+  <p><label for="username">username:</label><input id="username" name="username" type="text" /></p>
+  <p><label for="password">password:</label><input id="password" name="password" type="password" /></p>
+  <p><input type="submit" value="Submit" /></p>
+</form>
+{% endblock %}
