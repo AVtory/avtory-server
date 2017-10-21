@@ -3,8 +3,9 @@
 
 from aiohttp import web
 from jinja2 import Environment, PackageLoader, select_autoescape
-from config import create_pool, read_config
+import logging
 
+from config import create_pool, read_config
 from session import SimpleSessionManager
 from users import create_user, login_get, login_post, users, logout
 
@@ -36,6 +37,10 @@ def main():
     app.router.add_post('/create_user', create_user)
     app.router.add_get('/users', users)
     app.router.add_get('/logout', logout)
+
+    logger = logging.getLogger('aiohttp.access')
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(logging.StreamHandler())
 
     # after the pool has been created, we should remove access to the db
     # password
