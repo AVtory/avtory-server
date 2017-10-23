@@ -20,7 +20,9 @@ async def logout(request):
     response = web.Response(text='''<html><head>
     <meta http-equiv="refresh" content="0; url=/" />
     </head></html>''', content_type='text/html')
-    response.set_cookie('session_id', 'logged out')
+    response.set_cookie('session_id', 'logged out',
+                        secure=request.app['config']
+                        .get('avtory', 'secure_cookies'))
     return response
 
 
@@ -124,7 +126,9 @@ async def login_post(request):
         response = web.Response(text='''<html><head>
         <meta http-equiv="refresh" content="0; url=/" />
         </head></html>''', content_type='text/html')
-        response.set_cookie('session_id', session_id)
+        response.set_cookie('session_id', session_id,
+                            secure=request.app['config']
+                            .get('avtory', 'secure_cookies'))
         return response
     else:
         return web.Response(

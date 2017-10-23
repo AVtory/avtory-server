@@ -17,6 +17,7 @@ def create_pool(config):
 
 def read_config():
     config = ConfigParser()
+    config['avtory'] = {'secure_cookies': True}
     config.read(['/etc/avtory/avtory.conf',
                  expanduser('~/.config/avtory.conf'),
                  'avtory.conf',
