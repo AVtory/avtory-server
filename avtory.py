@@ -7,7 +7,7 @@ import logging
 
 from config import create_pool, read_config
 from session import SimpleSessionManager
-from users import create_user, login_get, login_post, users, logout
+from users import create_user, login_get, login_post, users, logout, user_mod
 
 
 async def home(request):
@@ -37,6 +37,7 @@ def main():
     app.router.add_post('/create_user', create_user)
     app.router.add_get('/users', users)
     app.router.add_get('/logout', logout)
+    app.router.add_post('/user_mod', user_mod)
 
     logger = logging.getLogger('aiohttp.access')
     logger.setLevel(logging.DEBUG)

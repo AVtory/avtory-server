@@ -4,19 +4,25 @@
 <div>
   <a href="create_user">Create User</a>
 </div>
-<table>
-  <tr>
-    <th>User Name</th>
-    <th>Name</th>
-    <th>E-Mail</th>
-    <th>Privileges</th>
-  </tr>
-  {% for userdata in userlist.values() %}
-  <tr>
-    {% for data in userdata %}
-    <td>{{ data|e }}</td>
+<form action="user_mod" method="post">
+  <table>
+    <tr>
+      <th />
+      <th>User Name</th>
+      <th>Name</th>
+      <th>E-Mail</th>
+      <th>Privileges</th>
+    </tr>
+    {% for username, userdata in userlist.items() %}
+    <tr>
+      <td><input type="radio" name="{{ username|e }}" /></td>
+      {% for data in userdata %}
+      <td>{{ data|e }}</td>
+      {% endfor %}
+    </tr>
     {% endfor %}
-  </tr>
-  {% endfor %}
-</table>
+  </table>
+  <input type="submit" name="modify_user" value="Modify selected user" />
+  <input type="submit" name="delete_user" value="Delete selected user" />
+</form>
 {% endblock %}

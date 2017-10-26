@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Modify User{% endblock %}
+{% block content %}
+<form action="user_mod" method="post">
+  <input name="username" type="hidden" value="{{ username|e }}" />
+  <table>
+    <tr><td>Username:</td><td>{{ username|e }}</td></tr>
+    <tr>
+      <td><label for="email">E-mail</label></td>
+      <td><input name="email" type="text" value="{{ email|e }}" /></td>
+    </tr>
+    <tr>
+      <td><label for="realname">Real name</label></td>
+      <td><input name="realname" type="text" value="{{ realname|e }}"/></td>
+    </tr>
+    <tr>
+      <td><label for="password">Update Password</label></td>
+      <td><input name="password" type="password" /></td></tr>
+    <tr>
+      <td><label for="admin">Admin</label></td>
+      <td><input name="admin" type="checkbox"
+		 {% if is_admin %} checked {% endif %}
+		 /></td>
+    </tr>
+  </table>
+  <input type="submit" name="user_mod" value="Update" />
+</form>
+{% endblock %}

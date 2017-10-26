@@ -24,20 +24,85 @@ async def logout(request):
     return response
 
 
+async def user_mod(request):
+    session_id, session_data = (request
+                                .app['session']
+                                .get_session(request, True))
+    data = await request.post()
+    if 'username' in data:
+        username = data['username']
+    else:
+        username = [username
+                    for username, on
+                    in data.items()
+                    if on == "on"][0]
+
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            if 'delete_user' in data:
+                await cur.execute("""
+                DELETE FROM users
+                WHERE username=%s;""",
+                                  (username,))
+                await conn.commit()
+                raise web.HTTPFound('/users')
+            elif 'modify_user' in data:
+                await cur.execute("""
+                SELECT email, realname, privs
+                FROM users
+                WHERE username=%s;""",
+                                  (username,))
+                email, realname, userprivs = await cur.fetchone()
+                email = "" if email is None else email
+                realname = "" if realname is None else realname
+                response = web.Response(text=request.app['env']
+                                        .get_template('user_mod.html')
+                                        .render(username=username,
+                                                email=email,
+                                                realname=realname,
+                                                is_admin=userprivs == "admin"),
+                                        content_type='text/html')
+                return response
+            elif 'user_mod' in data:
+                email = data['email'] if 'email' in data else None
+                realname = data['realname'] if 'realname' in data else None
+                privs = ('admin'
+                         if 'admin' in data and data['admin'] == 'on'
+                         else 'user')
+                await cur.execute("""UPDATE users
+                SET email = %s,
+                realname = %s,
+                privs = %s
+                WHERE username = %s
+                """, (email, realname, privs, username))
+                if data['password'] != "":
+                    salt = secrets.token_urlsafe(32).encode()
+                    password_hash = hash_pw(data['password'].encode(),
+                                            salt, 15)
+                    password_hash = b64encode(password_hash)
+                    await cur.execute("""UPDATE users
+                    SET password_hash = %s,
+                    salt = %s
+                    WHERE username = %s
+                    """, (password_hash, salt, username))
+                await conn.commit()
+                raise web.HTTPFound('/users')
+
+
 async def insert_user(pool, username, password, admin='user',
                       email=None, name=None):
-        salt = secrets.token_urlsafe(32).encode()
-        password_hash = hash_pw(password, salt, 15)
-        password_hash = b64encode(password_hash)
+    salt = secrets.token_urlsafe(32).encode()
+    password_hash = hash_pw(password, salt, 15)
+    password_hash = b64encode(password_hash)
 
-        async with pool.acquire() as conn:
-            async with conn.cursor() as cur:
-                await cur.execute("""
-                INSERT INTO users
-                (username, email, realname, password_hash, salt, privs)
-                VALUES (%s, %s, %s, %s, %s, %s)""",
-                                  (username, email, name, password_hash,
-                                   salt, admin))
+    async with pool.acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute("""
+            INSERT INTO users
+            (username, email, realname, password_hash, salt, privs)
+            VALUES (%s, %s, %s, %s, %s, %s)""",
+                              (username, email, name, password_hash,
+                               salt, admin))
             await conn.commit()
 
 
