@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Categories{% endblock %}
+{% block content %}
+<!-- <div><a href="add_category">Add Category</a></div> -->
+<form action="categories" method="post">
+  <table>
+    {% for category_id, category_name in categories.items() %}
+    <tr>
+      <td><input type="checkbox" name="{{ category_id }}" /></td>
+      <td>{{ category_name|e }}</td>
+    </tr>
+    {% endfor%}
+  </table>
+</form>
+{% endblock %}

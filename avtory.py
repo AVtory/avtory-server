@@ -8,6 +8,7 @@ import logging
 from config import create_pool, read_config
 from session import SimpleSessionManager
 from users import create_user, login_get, login_post, users, logout, user_mod
+from category import category_list
 
 
 async def home(request):
@@ -38,6 +39,7 @@ def main():
     app.router.add_get('/users', users)
     app.router.add_get('/logout', logout)
     app.router.add_post('/user_mod', user_mod)
+    app.router.add_get('/categories', category_list)
 
     logger = logging.getLogger('aiohttp.access')
     logger.setLevel(logging.DEBUG)
