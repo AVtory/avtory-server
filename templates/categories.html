@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Categories{% endblock %}
 {% block content %}
-<!-- <div><a href="add_category">Add Category</a></div> -->
-<form action="categories" method="post">
+{% if privs == "admin" %}
+<div><a href="add_category">Add Category</a></div>
+{% endif %}
+<form id="category_form" action="categories" method="post">
   <table>
     {% for category_id, category_name in categories.items() %}
-    <tr>
-      <td><input type="checkbox" name="{{ category_id }}" /></td>
-      <td>{{ category_name|e }}</td>
-    </tr>
+    <tr><td><input type="radio" name="{{ category_id }}"></td><td>{{ category_name|e }}</td></tr>
     {% endfor%}
   </table>
+  <input type="submit" name="show_equipment" value="Show equipment in selected categories" />
+  {% if privs == "admin" %}
+  <input type="submit" name="delete_categories" value="Delete selected categories" />
+  {% endif %}
 </form>
 {% endblock %}
