@@ -18,5 +18,6 @@ async def category_list(request):
                           in await cur.fetchall()}
     return web.Response(text=request.app['env']
                         .get_template('categories.html')
-                        .render(categories=categories),
+                        .render(privs=session_data['privs'],
+                                categories=categories),
                         content_type='text/html')

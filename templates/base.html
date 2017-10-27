@@ -10,7 +10,9 @@
     <div id="navbar">
       <a href="/">Home</a>
       <a href="categories">Categories</a>
+      {% if privs == 'admin' %}
       <a href="users">User Management</a>
+      {% endif %}
       <a href="logout">Logout</a>
     </div>
     <div id="content">{% block content %}{% endblock %}</div>

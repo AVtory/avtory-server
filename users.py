@@ -57,7 +57,8 @@ async def user_mod(request):
                 realname = "" if realname is None else realname
                 response = web.Response(text=request.app['env']
                                         .get_template('user_mod.html')
-                                        .render(username=username,
+                                        .render(privs=session_data['privs'],
+                                                username=username,
                                                 email=email,
                                                 realname=realname,
                                                 is_admin=userprivs == "admin"),
@@ -127,7 +128,7 @@ async def create_user(request):
     return web.Response(text=request
                         .app['env']
                         .get_template('create_user.html')
-                        .render(),
+                        .render(privs=session_data['privs']),
                         content_type='text/html')
 
 
@@ -155,7 +156,8 @@ async def users(request):
 
     response = web.Response(text=request.app['env']
                             .get_template('users.html')
-                            .render(userlist=userlist),
+                            .render(privs=session_data['privs'],
+                                    userlist=userlist),
                             content_type='text/html')
 
     return response
