@@ -35,11 +35,11 @@ def main():
     app.router.add_get('/', home)
     app.router.add_get('/login', login_get)
     app.router.add_post('/login', login_post)
+    app.router.add_get('/logout', logout)
 
     app.router.add_get('/create_user', create_user)
     app.router.add_post('/create_user', create_user)
     app.router.add_get('/users', users)
-    app.router.add_get('/logout', logout)
     app.router.add_post('/user_mod', user_mod)
 
     app.router.add_get('/categories', category_list)
