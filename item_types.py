@@ -49,3 +49,21 @@ async def type_list(request):
                                 .render(privs=session_data['privs'],
                                         item_types=await cur.fetchall()),
                                 content_type='text/html')
+
+
+async def delete_item(request, data):
+    _, session_data = request.app['session'].get_session(request, True)
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                '''DELETE FROM ITEM_TYPE
+                WHERE Item_Type_ID = %s''', (data['delete_item'],))
+            await conn.commit()
+    return await type_list(request)
+
+
+async def item_type_post(request):
+    session_id, session_data = request.app['session'].get_session(request)
+    data = await request.post()
+    if 'delete_item' in data:
+        return await delete_item(request, data)

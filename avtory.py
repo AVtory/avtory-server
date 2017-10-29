@@ -10,7 +10,8 @@ from session import SimpleSessionManager
 from users import create_user, login_get, login_post, users, logout, user_mod
 from category import (category_list, category_post, add_category_get,
                       add_category_post)
-from item_types import type_list, add_item_type_get, add_item_type_post
+from item_types import (type_list, add_item_type_get, add_item_type_post,
+                        item_type_post)
 
 
 async def home(request):
@@ -48,7 +49,8 @@ def main():
     app.router.add_get('/add_category', add_category_get)
     app.router.add_post('/add_category', add_category_post)
 
-    app.router.add_get('/types', type_list)
+    app.router.add_get('/item_types', type_list)
+    app.router.add_post('/item_types', item_type_post)
     app.router.add_get('/add_item_type', add_item_type_get)
     app.router.add_post('/add_item_type', add_item_type_post)
 
