@@ -119,7 +119,7 @@ async def create_user(request):
                  else 'user')
 
         await insert_user(request.app['pool'], username,
-                          password, admin, name, email)
+                          password, admin, email, name)
 
     return web.Response(text=request
                         .app['env']
