@@ -8,7 +8,11 @@
     </thead>
     <tbody>
       {% for category_id, category_name in categories.items() %}
-      <tr><td><button type="submit" class="btn btn-link" name="category_id" value="{{ category_id }}">{{ category_name|e }}</button></td></tr>
+      <tr><td><button type="submit" class="btn btn-link" name="show_equipment" value="{{ category_id }}">{{ category_name|e }}</button></td>
+	{% if privs == "admin" %}
+	<td><button type="submit" class="btn btn-danger" name="delete_category" value="{{ category_id }}">Delete Category</button></td>
+	{% endif %}
+      </tr>
       {% endfor%}
     </tbody>
   </table>
