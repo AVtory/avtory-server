@@ -71,6 +71,7 @@ async def user_mod(request):
                 privs = %s
                 WHERE username = %s
                 """, (email, realname, privs, username))
+
                 if data['password'] != "":
                     salt = secrets.token_urlsafe(32).encode()
                     password_hash = hash_pw(data['password'].encode(),

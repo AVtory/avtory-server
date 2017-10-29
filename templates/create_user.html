@@ -2,11 +2,17 @@
 {% block title %}Create User{% endblock %}
 {% block content %}
 <form action="create_user" method="post">
-  <p><label for="username">Username:</label><input id="username" name="username" type="text" /></p>
-  <p><label for="password">Password:</label><input id="password" name="password" type="password" /></p>
-  <p><label for="admin">Admin? :</label><input id="admin" name="admin" type="checkbox"/></p>
-  <p><label for="name">Real name:</label><input id="name" name="name" type="text" /></p>
-  <p><label for="email">email:</label><input id="email" name="email" type="text"/></p>
-  <p><input type="submit" value="Submit" /></p>
+  <div class="form-group">
+    <input type="text" name="username" class="form-control" placeholder="Username" />
+    <input type="password" name="password" class="form-control" placeholder="Password" />
+    <input type="text" name="name" class="form-control" placeholder="Real Name" />
+    <input type="email" name="email" class="form-control" placeholder="E-Mail Address" />
+  </div>
+  <div class="form-check">
+    <label class="form-check-label">
+      <input type="checkbox" name="admin" class="form-check-input">Administrator</input>
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% endblock %}

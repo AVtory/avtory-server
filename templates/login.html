@@ -3,9 +3,11 @@
 {% block content %}
 <div class="card card-body">
   <form action="login" method="post">
-    <p><label for="username">username:</label><input id="username" name="username" type="text" /></p>
-    <p><label for="password">password:</label><input id="password" name="password" type="password" /></p>
-    <p><input type="submit" value="Submit" /></p>
+    <div class="form-group">
+      <input type="text" name="username" class="form-control" placeholder="Username" />
+      <input type="password" name="password" class="form-control" placeholder="Password" />
+      <button type="submit" class="btn btn-primary">Login</button>
+    </div>
   </form>
 </div>
 {% endblock %}
