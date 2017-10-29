@@ -34,7 +34,14 @@
     </header>
 
     <!-- main content -->
-    <div id="main_content">{% block content %}{% endblock %}</div>
+    <div id="main_content">
+      {% if error_msg %}
+      <div>
+	{{ error_msg }}
+      </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </div>
     <!-- end content -->
 
     <!--BOTTOM NAV BAR-->

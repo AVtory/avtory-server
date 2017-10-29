@@ -29,24 +29,19 @@ async def user_mod(request):
                                 .app['session']
                                 .get_session(request, True))
     data = await request.post()
-    if 'username' in data:
-        username = data['username']
-    else:
-        username = [username
-                    for username, on
-                    in data.items()
-                    if on == "on"][0]
+    username = data['username']
+    action = data['action']
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
-            if 'delete_user' in data:
+            if action == 'delete':
                 await cur.execute("""
                 DELETE FROM users
                 WHERE username=%s;""",
                                   (username,))
                 await conn.commit()
                 raise web.HTTPFound('/users')
-            elif 'modify_user' in data:
+            elif action == 'show':
                 await cur.execute("""
                 SELECT email, realname, privs
                 FROM users
@@ -64,7 +59,7 @@ async def user_mod(request):
                                                 is_admin=userprivs == "admin"),
                                         content_type='text/html')
                 return response
-            elif 'user_mod' in data:
+            elif action == 'modify':
                 email = data['email'] if 'email' in data else None
                 realname = data['realname'] if 'realname' in data else None
                 privs = ('admin'
@@ -150,7 +145,7 @@ async def users(request):
             await cur.execute(
                 """SELECT username, realname, email, privs
                 FROM users""")
-            userlist = {username: [username, realname, email, privs]
+            userlist = {username: [realname, email, privs]
                         for username, realname, email, privs
                         in await cur.fetchall()}
 
