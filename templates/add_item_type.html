@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Add Category{% endblock %}
+{% block content %}
+<form action="add_item_type" method="post">
+  <div class="form-group">
+    <select class="form-control" name="category_id">
+      {% for category_id, category_name in categories %}
+      <option value="{{ category_id }}">{{ category_name|e }}</option>
+      {% endfor %}
+    </select>
+    <input type="text" name="item_type" class="form-control" placeholder="Item Type Name" />
+    <button type="submit" class="btn btn-primary">Add Item Type</button>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Item Types{% endblock %}
+{% block content %}
+<form action="item_types" method="post">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+	<th>Item Type</th>
+	<th>Category</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item_id, category, item_type in item_types %}
+      <tr>
+	<td><button type="submit" class="btn btn-link" name="show_items"
+		    value="{{ item_id }}">{{ item_type|e }}</button></td>
+	<td>{{ category|e }}</td>
+	{% if privs == "admin" %}
+	<td><button type="submit" class="btn btn-danger"
+		    name="delete_item" value="{{ item_id }}">Delete Item Type</button>
+	</td>
+	{% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+<div><a href="add_item_type" class="btn btn-primary" role="button">Add Item Type</a></div>
+{% endblock %}
