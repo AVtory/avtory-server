@@ -2,7 +2,9 @@
 {% block title %}Add Category{% endblock %}
 {% block content %}
 <form action="add_category" method="post">
-  <p><label for="category">Catgory name:</label><input name="category" type="text" /></p>
-  <p><input type="submit" value="Add Category" /></p>
+  <div class="form-group">
+    <input type="text" name="category" class="form-control" placeholder="Category Name" />
+    <button type="submit" class="btn btn-primary">Add Category</button>
+  </div>
 </form>
 {% endblock %}

@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% block title %}User List{% endblock %}
 {% block content %}
-<div>
-  <a href="create_user">Create User</a>
-</div>
 <form action="user_mod" method="post">
   <input type="hidden" name="action" value="show" />
   <table class="table table-striped">
@@ -28,4 +25,5 @@
     </tbody>
   </table>
 </form>
+<div><a href="create_user" class="btn btn-primary" role="button">Create User</a></div>
 {% endblock %}
