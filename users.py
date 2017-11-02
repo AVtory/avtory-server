@@ -31,34 +31,26 @@ async def delete_user(request, user_id):
         async with conn.cursor() as cur:
             await cur.execute("""
             DELETE FROM USERS
-            WHERE User_ID=%s""", (user_id,))
+            WHERE user_id=%s""", (user_id,))
             await conn.commit()
             raise web.HTTPFound('/users')
 
 
-async def show_user(request, employeeid):
+async def show_user(request, employee_id):
     _, session_data = request.app['session'].get_session(request, True)
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute(
-                """SELECT USERS.User_ID, Employee_ID, USERS.username,
-                Last_Name, First_Name, Email,
-                Phone_Number, Is_Admin, Role
+                """SELECT USERS.user_id, employee_id, USERS.username,
+                last_name, first_name, email,
+                phone_number, is_admin, role
                 FROM EMPLOYEE
-                JOIN USERS ON USERS.User_ID=EMPLOYEE.User_ID
-                WHERE Employee_ID=%s""", (employeeid,))
-            userdata = [{'employeeid': employeeid,
-                         'userid': userid,
-                         'username': username,
-                         'lastname': lastname,
-                         'firstname': firstname,
-                         'email': email,
-                         'phonenumber': phonenumber,
-                         'isadmin': bool(isadmin),
-                         'role': role}
-                        for userid, employeeid, username, lastname,
-                        firstname, email, phonenumber, isadmin, role
-                        in await cur.fetchall()][0]
+                JOIN USERS ON USERS.user_id=EMPLOYEE.user_id
+                WHERE employee_id=%s""", (employee_id,))
+            userdata = {key: value
+                        for key, value
+                        in zip((col[0] for col in cur.description),
+                               await cur.fetchone())}
             return web.Response(text=request.app['env']
                                 .get_template('user_mod.html')
                                 .render(admin=session_data['admin'],
@@ -84,24 +76,25 @@ async def modify_user(request, data):
                 Phone_Number = %s,
                 Is_Admin = %s,
                 Role = %s
-                WHERE Employee_ID=%s""",
+                WHERE employee_id=%s""",
                 (data['lastname'],
                  data['firstname'],
                  data['email'],
                  phonenumber,
                  1 if 'admin' in data and data['admin'] == 'on' else 0,
                  data['role'],
-                 data['employeeid']))
+                 data['employee_id']))
             if data['password'] != '':
                 salt = secrets.token_urlsafe(32).encode()
                 password_hash = hash_pw(data['password'].encode(),
                                         salt, 15)
                 password_hash = b64encode(password_hash)
-                await cur.execute("""UPDATE USERS
-                SET Password_Hash = %s,
-                Salt = %s
-                WHERE User_ID = %s
-                """, (password_hash, salt, data['userid']))
+                await cur.execute(
+                    """UPDATE USERS
+                    SET Password_Hash = %s,
+                    Salt = %s
+                    WHERE user_id = %s
+                    """, (password_hash, salt, data['userid']))
             await conn.commit()
     raise web.HTTPFound('/users')
 
@@ -111,9 +104,9 @@ async def user_mod(request):
     action = data['action']
 
     if action == 'delete':
-        return await delete_user(request, data['userid'])
+        return await delete_user(request, data['user_id'])
     elif action == 'show':
-        return await show_user(request, data['employeeid'])
+        return await show_user(request, data['employee_id'])
     elif action == 'modify':
         return await modify_user(request, data)
 
@@ -139,7 +132,7 @@ async def insert_user(pool, username, password, lastname, firstname, email,
                               (username, password_hash, salt, 15))
             await cur.execute("""
             INSERT INTO EMPLOYEE
-            (User_ID, First_Name, Last_Name,
+            (user_id, First_Name, Last_Name,
             Email, Phone_Number, Is_Admin, Role)
             VALUES (LAST_INSERT_ID(), %s, %s, %s, %s, %s, %s)""",
                               (firstname, lastname,
@@ -213,7 +206,7 @@ async def login_post(request):
             await cur.execute(
                 """SELECT Password_Hash, Salt, Work_Factor, EMPLOYEE.Is_Admin
                 FROM USERS
-                JOIN EMPLOYEE ON USERS.User_ID=EMPLOYEE.User_ID
+                JOIN EMPLOYEE ON USERS.user_id=EMPLOYEE.user_id
                 WHERE Username=%s""",
                 username)
             if cur.rowcount == 0:

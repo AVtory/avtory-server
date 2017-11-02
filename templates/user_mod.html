@@ -16,13 +16,13 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label>Last Name</label>
-      <input type="text" name="lastname" class="form-control"
-	     value="{{userdata.lastname|e}}" />
+      <input type="text" name="last_name" class="form-control"
+	     value="{{userdata.last_name|e}}" />
     </div>
     <div class="form-group col-md-6">
       <label>First Name</label>
-      <input type="text" name="firstname" class="form-control"
-	     value="{{userdata.firstname|e}}" />
+      <input type="text" name="first_name" class="form-control"
+	     value="{{userdata.first_name|e}}" />
     </div>
   </div>
   <div class="form-row">
@@ -33,15 +33,15 @@
     </div>
     <div class="form-group col-md-6">
       <label>Phone Number</label>
-      <input type="text" name="phonenumber" class="form-control"
-	     value="{{userdata.phonenumber}}" />
+      <input type="text" name="phone_number" class="form-control"
+	     value="{{userdata.phone_number}}" />
     </div>
   </div>
   <div class="form-row">
     <div class="form-check col-md-6">
       <label class="form-check-label">
 	<input type="checkbox" name="admin" class="form-check-input"
-	       {% if userdata.isadmin %}checked{% endif %}/>Administrator
+	       {% if userdata.is_admin %}checked{% endif %}/>Administrator
       </label>
     </div>
     <div class="form-group col-md-6">
@@ -49,8 +49,8 @@
       <input type="text" name="role" class="form-control" value="{{userdata.role|e}}" />
     </div>
   </div>
-  <input type="hidden" name="userid" value="{{ userdata.userid }}" />
-  <input type="hidden" name="employeeid" value="{{ userdata.employeeid }}" />
+  <input type="hidden" name="user_id" value="{{ userdata.user_id }}" />
+  <input type="hidden" name="employee_id" value="{{ userdata.employee_id }}" />
   <button type="submit" class="btn btn-primary" name="action" value="modify">Update</button>
   <button type="submit" class="btn btn-danger" name="action" value="delete">Delete User</button>
 </form>
