@@ -68,9 +68,42 @@ async def show_user(request, employeeid):
 
 async def modify_user(request, data):
     _, session_data = request.app['session'].get_session(request, True)
+    phonenumber = [n for n in data['phonenumber']
+                   if n in string.digits]
+    phonenumber.insert(3, '-')
+    phonenumber.insert(7, '-')
+    phonenumber = ''.join(phonenumber)
+
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
-            pass
+            await cur.execute(
+                """UPDATE EMPLOYEE
+                SET Last_Name = %s,
+                First_Name = %s,
+                Email = %s,
+                Phone_Number = %s,
+                Is_Admin = %s,
+                Role = %s
+                WHERE Employee_ID=%s""",
+                (data['lastname'],
+                 data['firstname'],
+                 data['email'],
+                 phonenumber,
+                 1 if 'admin' in data and data['admin'] == 'on' else 0,
+                 data['role'],
+                 data['employeeid']))
+            if data['password'] != '':
+                salt = secrets.token_urlsafe(32).encode()
+                password_hash = hash_pw(data['password'].encode(),
+                                        salt, 15)
+                password_hash = b64encode(password_hash)
+                await cur.execute("""UPDATE USERS
+                SET Password_Hash = %s,
+                Salt = %s
+                WHERE User_ID = %s
+                """, (password_hash, salt, data['userid']))
+            await conn.commit()
+    raise web.HTTPFound('/users')
 
 
 async def user_mod(request):
