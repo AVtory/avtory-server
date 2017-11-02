@@ -7,18 +7,21 @@
     <thead>
       <tr>
 	<th>User Name</th>
-	<th>Name</th>
+	<th>Last Name</th>
+	<th>First Name</th>
 	<th>E-Mail</th>
-	<th>Privileges</th>
+	<th>Phone Number</th>
+	<th>Administrator</th>
+	<th>Role</th>
       </tr>
     </thead>
     <tbody>
-      {% for username, userdata in userlist.items() %}
+      {% for employeeid, userdata in userlist.items() %}
       <tr>
-	<td><button type="submit" class="btn btn-link" name="username"
-		    value="{{ username|e }}">{{ username|e }}</button></td>
-	{% for data in userdata %}
-	<td>{{ data|e }}</td>
+	<td><button type="submit" class="btn btn-link" name="employeeid"
+		    value="{{ employeeid }}">{{ userdata['username']|e }}</button></td>
+	{% for data in ['lastname', 'firstname', 'email', 'phonenumber', 'isadmin', 'role'] %}
+	<td>{{ userdata[data]|e }}</td>
 	{% endfor %}
       </tr>
       {% endfor %}

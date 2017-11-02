@@ -5,10 +5,10 @@
   <div class="form-group">
     <label>Username
       <input type="text" name="username" class="form-control"
-	     placeholder="{{ username|e }}"
-	     value="{{ username|e }}" readonly />
+	     placeholder="{{ userdata.username|e }}"
+	     value="{{ userdata.username|e }}" readonly />
     </label>
-</div>
+  </div>
   <div class="form-group">
     <label>Password
       <input type="password" name="password" class="form-control" placeholder="Leave password unchanged">
@@ -16,21 +16,23 @@
   </div>
   <div class="form-group">
     <label>E-mail
-      <input type="email" name="email" class="form-control" value="{{ email|e }}" />
+      <input type="email" name="email" class="form-control" value="{{ userdata.email|e }}" />
     </label>
   </div>
   <div class="form-group">
-    <label>Real Name
-      <input type="text" name="realname" class="form-control" value="{{ realname|e }}" />
+    <label>Last Name
+      <input type="text" name="realname" class="form-control" value="{{ userdata.lastname|e }}" />
     </label>
   </div>
   <div class="form-check">
     <label class="form-check-label">
       <input type="checkbox" name="admin" class="form-check-input"
-	     {% if is_admin %}checked{% endif %}
+	     {% if userdata.isadmin %}checked{% endif %}
 	     >Administrator</input>
     </label>
   </div>
+  <input type="hidden" name="userid" value="{{ userdata.userid }}" />
+  <input type="hidden" name="employeeid" value="{{ userdata.employeeid }}" />
   <button type="submit" class="btn btn-primary" name="action" value="modify">Update</button>
   <button type="submit" class="btn btn-danger" name="action" value="delete">Delete User</button>
 </form>

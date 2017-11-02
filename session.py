@@ -48,9 +48,9 @@ class SimpleSessionManager:
             session_data = self.sessions[session_id]
             session_data['active'] = time.time()
 
-            if (admin_required
-                and ('privs' not in session_data
-                     or 'admin' != session_data['privs'])):
+            if (admin_required and (
+                    'admin' not in session_data
+                    or not session_data['admin'])):
                 raise web.HTTPForbidden()
 
             return session_id, session_data

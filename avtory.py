@@ -19,7 +19,7 @@ async def home(request):
     response = web.Response(text=request
                             .app['env']
                             .get_template('home.html')
-                            .render(privs=session_data['privs']),
+                            .render(admin=session_data['admin']),
                             content_type="text/html")
     return response
 

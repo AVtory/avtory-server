@@ -13,7 +13,7 @@ async def add_item_type_get(request):
             ORDER BY Category_Name''')
             return web.Response(text=request.app['env']
                                 .get_template('add_item_type.html')
-                                .render(privs=session_data['privs'],
+                                .render(admin=session_data['admin'],
                                         categories=await cur.fetchall()),
                                 content_type='text/html')
 
@@ -46,7 +46,7 @@ async def type_list(request):
                 ORDER BY Category_Name, Item_Type_Name''')
             return web.Response(text=request.app['env']
                                 .get_template('item_types.html')
-                                .render(privs=session_data['privs'],
+                                .render(admin=session_data['admin'],
                                         item_types=await cur.fetchall()),
                                 content_type='text/html')
 

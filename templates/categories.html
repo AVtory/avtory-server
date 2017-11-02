@@ -9,7 +9,7 @@
     <tbody>
       {% for category_id, category_name in categories.items() %}
       <tr><td><button type="submit" class="btn btn-link" name="show_equipment" value="{{ category_id }}">{{ category_name|e }}</button></td>
-	{% if privs == "admin" %}
+	{% if admin %}
 	<td><button type="submit" class="btn btn-danger" name="delete_category" value="{{ category_id }}">Delete Category</button></td>
 	{% endif %}
       </tr>
@@ -17,7 +17,7 @@
     </tbody>
   </table>
 </form>
-{% if privs == "admin" %}
+{% if admin %}
 <div><a href="add_category" class="btn btn-primary" role="button">Add Category</a></div>
 {% endif %}
 {% endblock %}

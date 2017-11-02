@@ -23,7 +23,7 @@ async def add_category_get(request):
     return web.Response(text=request
                         .app['env']
                         .get_template('add_category.html')
-                        .render(privs=session_data['privs']),
+                        .render(admin=session_data['admin']),
                         content_type='text/html')
 
 
@@ -41,7 +41,7 @@ async def category_list(request):
                           in await cur.fetchall()}
     return web.Response(text=request.app['env']
                         .get_template('categories.html')
-                        .render(privs=session_data['privs'],
+                        .render(admin=session_data['admin'],
                                 categories=categories),
                         content_type='text/html')
 
