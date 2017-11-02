@@ -33,17 +33,26 @@ async def add_item_type_post(request):
     return await add_item_type_get(request)
 
 
-async def type_list(request):
+async def type_list(request, category_id=None):
     session_id, session_data = request.app['session'].get_session(request)
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
-            await cur.execute(
-                '''SELECT Item_Type_ID, Category_Name, Item_Type_Name
-                FROM ITEM_TYPE
-                LEFT JOIN CATEGORY
-                ON ITEM_TYPE.Category_ID=CATEGORY.Category_ID
-                ORDER BY Category_Name, Item_Type_Name''')
+            if category_id is None:
+                await cur.execute(
+                    '''SELECT Item_Type_ID, Category_Name, Item_Type_Name
+                    FROM ITEM_TYPE
+                    JOIN CATEGORY
+                    ON ITEM_TYPE.Category_ID=CATEGORY.Category_ID
+                    ORDER BY Category_Name, Item_Type_Name''')
+            else:
+                await cur.execute(
+                    '''SELECT Item_Type_ID, Category_Name, Item_Type_Name
+                    FROM ITEM_TYPE
+                    JOIN CATEGORY
+                    ON ITEM_TYPE.Category_ID=CATEGORY.Category_ID
+                    AND ITEM_TYPE.Category_ID=%s
+                    ORDER BY Category_Name, Item_Type_Name''', (category_id,))
             return web.Response(text=request.app['env']
                                 .get_template('item_types.html')
                                 .render(admin=session_data['admin'],
