@@ -16,11 +16,11 @@
       </tr>
     </thead>
     <tbody>
-      {% for employeeid, userdata in userlist.items() %}
+      {% for employee_id, userdata in userlist.items() %}
       <tr>
-	<td><button type="submit" class="btn btn-link" name="employeeid"
-		    value="{{ employeeid }}">{{ userdata['username']|e }}</button></td>
-	{% for data in ['lastname', 'firstname', 'email', 'phonenumber', 'isadmin', 'role'] %}
+	<td><button type="submit" class="btn btn-link" name="employee_id"
+		    value="{{ employee_id }}">{{ userdata['username']|e }}</button></td>
+	{% for data in ['last_name', 'first_name', 'email', 'phone_number', 'is_admin', 'role'] %}
 	<td>{{ userdata[data]|e }}</td>
 	{% endfor %}
       </tr>

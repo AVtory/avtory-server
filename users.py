@@ -185,21 +185,16 @@ async def users(request):
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute(
-                """SELECT USERS.User_ID, Employee_ID, USERS.username,
-                Last_Name, First_Name, Email,
-                Phone_Number, Is_Admin, Role
+                """SELECT USERS.user_id, employee_id, USERS.username,
+                last_name, first_name, email,
+                phone_number, is_admin, role
                 FROM EMPLOYEE
-                JOIN USERS ON USERS.User_ID=EMPLOYEE.User_ID""")
-            userlist = {employeeid: {'userid': userid,
-                                     'username': username,
-                                     'lastname': lastname,
-                                     'firstname': firstname,
-                                     'email': email,
-                                     'phonenumber': phonenumber,
-                                     'isadmin': bool(isadmin),
-                                     'role': role}
-                        for userid, employeeid, username, lastname,
-                        firstname, email, phonenumber, isadmin, role
+                JOIN USERS ON USERS.user_id=EMPLOYEE.user_id""")
+            columns = tuple((col[0] for col in cur.description))
+            userlist = {row[1]: {key: value
+                                 for key, value
+                                 in zip(columns, row)}
+                        for row
                         in await cur.fetchall()}
 
     return web.Response(text=request.app['env']
