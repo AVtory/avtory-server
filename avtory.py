@@ -15,13 +15,12 @@ from item_types import (type_list, add_item_type_get, add_item_type_post,
 
 
 async def home(request):
-    session_id, session_data = request.app['session'].get_session(request)
-    response = web.Response(text=request
-                            .app['env']
-                            .get_template('home.html')
-                            .render(admin=session_data['admin']),
-                            content_type="text/html")
-    return response
+    _, session_data = request.app['session'].get_session(request)
+    return web.Response(text=request
+                        .app['env']
+                        .get_template('home.html')
+                        .render(admin=session_data['admin']),
+                        content_type="text/html")
 
 
 def main():

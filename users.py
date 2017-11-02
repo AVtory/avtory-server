@@ -148,9 +148,7 @@ async def insert_user(pool, username, password, lastname, firstname, email,
 
 
 async def create_user(request):
-    session_id, session_data = (request
-                                .app['session']
-                                .get_session(request, True))
+    _, session_data = request.app['session'].get_session(request, True)
     data = await request.post()
 
     if len(data) > 0:

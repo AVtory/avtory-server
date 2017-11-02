@@ -6,8 +6,7 @@ from item_types import type_list
 
 
 async def add_category_post(request):
-    session_id, session_data = (request.app['session']
-                                .get_session(request, True))
+    _, session_data = request.app['session'].get_session(request, True)
     data = await request.post()
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
@@ -19,8 +18,7 @@ async def add_category_post(request):
 
 
 async def add_category_get(request):
-    session_id, session_data = (request.app['session']
-                                .get_session(request, True))
+    _, session_data = request.app['session'].get_session(request, True)
     return web.Response(text=request
                         .app['env']
                         .get_template('add_category.html')
@@ -29,7 +27,7 @@ async def add_category_get(request):
 
 
 async def category_list(request):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
@@ -48,8 +46,7 @@ async def category_list(request):
 
 
 async def delete_categories(request, data):
-    session_id, session_data = (request.app['session']
-                                .get_session(request, True))
+    _, session_data = request.app['session'].get_session(request, True)
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute(

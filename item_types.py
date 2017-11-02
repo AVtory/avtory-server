@@ -5,7 +5,7 @@ from aiohttp import web
 
 
 async def add_item_type_get(request):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute('''SELECT Category_ID, Category_Name
@@ -19,7 +19,7 @@ async def add_item_type_get(request):
 
 
 async def add_item_type_post(request):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
     data = await request.post()
     print(data)
 
@@ -34,7 +34,7 @@ async def add_item_type_post(request):
 
 
 async def type_list(request, category_id=None):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
@@ -72,7 +72,7 @@ async def delete_item(request, data):
 
 
 async def item_type_post(request):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
     data = await request.post()
     if 'delete_item' in data:
         return await delete_item(request, data)
