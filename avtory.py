@@ -12,6 +12,7 @@ from category import (category_list, category_post, add_category_get,
                       add_category_post)
 from item_types import (type_list, add_item_type_get, add_item_type_post,
                         item_type_post)
+from items import item_list
 
 
 async def home(request):
@@ -52,6 +53,8 @@ def main():
     app.router.add_post('/item_types', item_type_post)
     app.router.add_get('/add_item_type', add_item_type_get)
     app.router.add_post('/add_item_type', add_item_type_post)
+
+    app.router.add_get('/item_list', item_list)
 
     logger = logging.getLogger('aiohttp.access')
     logger.setLevel(logging.DEBUG)
