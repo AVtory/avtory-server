@@ -2,6 +2,8 @@
 {% block title %}Equipment List{% endblock %}
 {% block content %}
 
+<a href="/add_item">Add Item</a>
+
 {% for item in items %}
 <p>
   {% for key, value in item.items() %}

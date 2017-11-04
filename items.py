@@ -4,6 +4,14 @@
 from aiohttp import web
 
 
+async def add_item_get(request):
+    _, session_data = request.app['session'].get_session(request)
+
+
+async def add_item_post(request):
+    _, session_data = request.app['session'].get_session(request)
+
+
 async def item_list(request, category=None, item_type=None):
     _, session_data = request.app['session'].get_session(request)
 
