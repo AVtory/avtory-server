@@ -3,6 +3,8 @@
 
 from aiohttp import web
 
+from items import item_list
+
 
 async def add_item_type_get(request):
     _, session_data = request.app['session'].get_session(request)
@@ -76,3 +78,5 @@ async def item_type_post(request):
     data = await request.post()
     if 'delete_item' in data:
         return await delete_item(request, data)
+    elif 'show_items' in data:
+        return await item_list(request, item_type=data['show_items'])

@@ -3,6 +3,7 @@
 
 from aiohttp import web
 from item_types import type_list
+from items import item_list
 
 
 async def add_category_post(request):
@@ -59,7 +60,9 @@ async def delete_categories(request, data):
 async def category_post(request):
     _, session_data = request.app['session'].get_session(request)
     data = await request.post()
-    if 'show_equipment' in data:
-        return await type_list(request, data['show_equipment'])
+    if 'show_item_types' in data:
+        return await type_list(request, data['show_item_types'])
+    elif 'show_equipment' in data:
+        return await item_list(request, category=data['show_equipment'])
     elif 'delete_category' in data:
         return await delete_categories(request, data)

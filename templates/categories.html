@@ -4,11 +4,24 @@
 <form id="category_form" action="categories" method="post">
   <table class="table table-striped">
     <thead>
-      <tr><th>Categories</th></tr>
+      <tr>
+	<th>Category</th>
+	<th>Show Item Types</th>
+	<th>Show Equipment</th>
+      </tr>
     </thead>
     <tbody>
       {% for category_id, category_name in categories.items() %}
-      <tr><td><button type="submit" class="btn btn-link" name="show_equipment" value="{{ category_id }}">{{ category_name|e }}</button></td>
+      <tr>
+	<td>{{ category_name|e }}</td>
+	<td><button type="submit" class="btn btn-link"
+		    name="show_item_types" value="{{ category_id }}">
+	    Show {{ category_name|e }} item types
+	</button></td>
+	<td><button type="submit" class="btn btn-link"
+		    name="show_equipment" value="{{ category_id }}">
+	    Show {{category_name|e}} equipment
+	</button></td>
 	{% if admin %}
 	<td><button type="submit" class="btn btn-danger" name="delete_category" value="{{ category_id }}">Delete Category</button></td>
 	{% endif %}
