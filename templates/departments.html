@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Departments{% endblock %}
+{% block content %}
+{% if admin %}
+<div><a href="add_department" class="btn btn-primary" role="button">Add Department</a></div>
+{% endif %}
+<form action="departments" method="post">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+	<th>Department</th>
+	{% if admin %}<th>Delete Department</th>{% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for department_id, department_name in departments.items() %}
+      <tr>
+	<td><button type="submit" class="btn btn-link"
+		    name="show_department" value="{{ department_id }}">
+	    {{ department_name|e }}</button></td>
+	{% if admin %}
+	<td><button type="submit" class="btn btn-danger"
+		    name="delete_department" value="{{ department_id }}">
+	    Delete</button></td>
+	{% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+{% endblock %}
