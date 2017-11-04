@@ -29,9 +29,9 @@ async def item_list(request, category=None, item_type=None):
                     FROM ITEM
                     LEFT JOIN CATEGORY
                     ON ITEM.category_id = CATEGORY.category_id
-                    AND ITEM.category_id = %s
                     LEFT JOIN ITEM_TYPE
-                    ON ITEM.item_type_id = ITEM_TYPE.item_type_id''',
+                    ON ITEM.item_type_id = ITEM_TYPE.item_type_id
+                    WHERE ITEM.category_id = %s''',
                     (category,))
             elif item_type is not None:
                 await cur.execute(
@@ -44,7 +44,7 @@ async def item_list(request, category=None, item_type=None):
                     ON ITEM.category_id = CATEGORY.category_id
                     LEFT JOIN ITEM_TYPE
                     ON ITEM.item_type_id = ITEM_TYPE.item_type_id
-                    AND ITEM.item_type_id = %s''',
+                    WHERE ITEM.item_type_id = %s''',
                     (item_type,))
             items = [{key: value
                       for key, value
