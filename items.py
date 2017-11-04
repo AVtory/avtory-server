@@ -50,8 +50,6 @@ async def item_list(request, category=None, item_type=None):
                       for key, value
                       in zip((col[0] for col in cur.description), item)}
                      for item in await cur.fetchall()]
-            print(items)
-
             return web.Response(text=request
                                 .app['env']
                                 .get_template('items.html')

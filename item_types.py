@@ -23,7 +23,6 @@ async def add_item_type_get(request):
 async def add_item_type_post(request):
     _, session_data = request.app['session'].get_session(request)
     data = await request.post()
-    print(data)
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
