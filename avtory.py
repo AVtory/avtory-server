@@ -15,6 +15,8 @@ from item_types import (type_list, add_item_type_get, add_item_type_post,
 from items import item_list, add_item_get, add_item_post
 from department import (department_list, department_post, add_department_get,
                         add_department_post)
+from location import (location_list, location_post, add_location_get,
+                      add_location_post)
 
 
 async def home(request):
@@ -64,6 +66,11 @@ def main():
     app.router.add_post('/departments', department_post)
     app.router.add_get('/add_department', add_department_get)
     app.router.add_post('/add_department', add_department_post)
+
+    app.router.add_get('/locations', location_list)
+    app.router.add_post('/locations', location_post)
+    app.router.add_get('/add_location', add_location_get)
+    app.router.add_post('/add_location', add_location_post)
 
     logger = logging.getLogger('aiohttp.access')
     logger.setLevel(logging.DEBUG)

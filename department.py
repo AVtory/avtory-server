@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from aiohttp import web
+from location import location_list
+from items import item_list
 
 
 async def add_department_get(request):
@@ -60,7 +62,10 @@ async def department_post(request):
     _, session_data = request.app['session'].get_session(request)
     data = await request.post()
 
-    if 'show_department' in data:
-        pass
+    if 'show_equipment' in data:
+        return await item_list(request, where_name='LOCATION.department_id',
+                               where_value=data['show_equipment'])
+    elif 'show_locations' in data:
+        return await location_list(request, data['show_locations'])
     elif 'delete_department' in data:
         return await delete_department(request, data['delete_department'])
