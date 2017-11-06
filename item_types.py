@@ -78,4 +78,5 @@ async def item_type_post(request):
     if 'delete_item' in data:
         return await delete_item(request, data)
     elif 'show_items' in data:
-        return await item_list(request, item_type=data['show_items'])
+        return await item_list(request, where_name='ITEM.item_type_id',
+                               where_value=data['show_items'])

@@ -63,6 +63,7 @@ async def category_post(request):
     if 'show_item_types' in data:
         return await type_list(request, data['show_item_types'])
     elif 'show_equipment' in data:
-        return await item_list(request, category=data['show_equipment'])
+        return await item_list(request, where_name='ITEM.category_id',
+                               where_value=data['show_equipment'])
     elif 'delete_category' in data:
         return await delete_categories(request, data)
