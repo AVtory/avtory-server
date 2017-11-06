@@ -23,6 +23,12 @@ async def item_list(request, where_name=None, where_value=None):
             ON ITEM.category_id = CATEGORY.category_id
             LEFT JOIN ITEM_TYPE
             ON ITEM.item_type_id=ITEM_TYPE.item_type_id
+            LEFT JOIN FINANCE
+            ON ITEM.finance_id=FINANCE.finance_id
+            LEFT JOIN LOCATION
+            ON ITEM.location_id=LOCATION.location_id
+            LEFT JOIN DEPARTMENT
+            ON LOCATION.department_id=DEPARTMENT.department_id
             '''
             query_value = None
             if where_name is not None:
