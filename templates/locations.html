@@ -21,7 +21,7 @@
 	<td>{{ location.Department_Name|e }}</td>
 	{% if admin %}
 	<td><button type="submit" class="btn btn-danger"
-		    name="delete_item" value="{{ item_id }}">
+		    name="delete_location" value="{{ location.Location_ID }}">
 	  Delete {{ location.Location_Name|e }}</button>
 	</td>
 	{% endif %}

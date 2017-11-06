@@ -33,14 +33,45 @@ async def location_list(request, department_id=None):
 
 async def add_location_get(request):
     _, session_data = request.app['session'].get_session(request)
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                '''SELECT Department_ID, Department_Name
+                FROM DEPARTMENT
+                ORDER BY Department_Name''')
+            return web.Response(text=request
+                                .app['env']
+                                .get_template('add_location.html')
+                                .render(admin=session_data['admin'],
+                                        departments=await cur.fetchall()),
+                                content_type='text/html')
 
 
 async def add_location_post(request):
     _, session_data = request.app['session'].get_session(request)
+    data = await request.post()
+
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                '''INSERT INTO LOCATION (Department_ID, Location_Name)
+                VALUES (%s, %s)''',
+                (data['department_id'], data['location']))
+            await conn.commit()
+
+    return await add_location_get(request)
 
 
 async def delete_location(request, location_id):
     _, session_data = request.app['session'].get_session(request, True)
+
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                '''DELETE FROM LOCATION
+                WHERE location_id = %s''', (location_id,))
+            await conn.commit()
+    return await location_list(request)
 
 
 async def location_post(request):
@@ -49,4 +80,6 @@ async def location_post(request):
     data = await request.post()
     if 'show_items' in data:
         return await item_list(request, where_name="LOCATION.location_id",
-                               where_value=data['Location_ID'])
+                               where_value=data['show_items'])
+    elif 'delete_location' in data:
+        return await delete_location(request, data['delete_location'])
