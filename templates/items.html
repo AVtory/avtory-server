@@ -2,7 +2,9 @@
 {% block title %}Equipment List{% endblock %}
 {% block content %}
 
-<a href="/add_item">Add Item</a>
+<form action="/add_item" method="post">
+  <button type="submit" class="btn btn-primary">Add Item</button>
+</form>
 
 {% for item in items %}
 <p>
