@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Edit Item{% endblock %}
+{% block content %}
+
+{% for key, value in item.items() %}
+<p>{{ key|e }}:{{ value|e }}</p>
+{% endfor %}
+
+{% endblock %}

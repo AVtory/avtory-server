@@ -91,6 +91,40 @@ async def add_item_post(request):
     return await item_list(request)
 
 
+async def view_item(request):
+    _, session_data = request.app['session'].get_session(request)
+    data = await request.post()
+    data = {k: v
+            for k, v
+            in data.items()}
+
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                '''SELECT *
+                FROM ITEM
+                LEFT JOIN CATEGORY
+                ON ITEM.category_id = CATEGORY.category_id
+                LEFT JOIN ITEM_TYPE
+                ON ITEM.item_type_id=ITEM_TYPE.item_type_id
+                LEFT JOIN FINANCE
+                ON ITEM.finance_id=FINANCE.finance_id
+                LEFT JOIN LOCATION
+                ON ITEM.location_id=LOCATION.location_id
+                LEFT JOIN DEPARTMENT
+                ON LOCATION.department_id=DEPARTMENT.department_id
+                WHERE Item_ID=%s
+                ''', (data['Item_ID']))
+            item = {key: value
+                    for key, value
+                    in zip((col[0] for col in cur.description),
+                           await cur.fetchone())}
+    return web.Response(text=request.app['env']
+                        .get_template('view_item.html')
+                        .render(admin=session_data['admin'], item=item),
+                        content_type="text/html")
+
+
 async def item_list(request, where_name=None, where_value=None):
     _, session_data = request.app['session'].get_session(request)
 

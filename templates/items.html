@@ -6,12 +6,15 @@
   <button type="submit" class="btn btn-primary">Add Item</button>
 </form>
 
-{% for item in items %}
-<p>
-  {% for key, value in item.items() %}
-  {{ key|e }}:{{ value|e }},
+<form action="/view_item" method="post">
+  {% for item in items %}
+  <p>
+    <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Edit</button>
+    {% for key, value in item.items() %}
+    {{ key|e }}:{{ value|e }},
+    {% endfor %}
+  </p>
   {% endfor %}
-</p>
-{% endfor %}
+</form>
 
 {% endblock %}
