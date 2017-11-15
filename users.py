@@ -77,8 +77,8 @@ async def modify_user(request, data):
                 Is_Admin = %s,
                 Role = %s
                 WHERE employee_id=%s""",
-                (data['lastname'],
-                 data['firstname'],
+                (data['last_name'],
+                 data['first_name'],
                  data['email'],
                  phonenumber,
                  1 if 'admin' in data and data['admin'] == 'on' else 0,
@@ -94,7 +94,7 @@ async def modify_user(request, data):
                     SET Password_Hash = %s,
                     Salt = %s
                     WHERE user_id = %s
-                    """, (password_hash, salt, data['userid']))
+                    """, (password_hash, salt, data['user_id']))
             await conn.commit()
     raise web.HTTPFound('/users')
 
