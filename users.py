@@ -60,7 +60,7 @@ async def show_user(request, employee_id):
 
 async def modify_user(request, data):
     _, session_data = request.app['session'].get_session(request, True)
-    phonenumber = [n for n in data['phonenumber']
+    phonenumber = [n for n in data['phone_number']
                    if n in string.digits]
     phonenumber.insert(3, '-')
     phonenumber.insert(7, '-')
