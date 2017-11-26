@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Add Equipment{% endblock %}
+{% block content %}
+<form action="add_item" method="post">
+  {% for k, v in data.items() %}
+  <input type="hidden" name="{{ k }}" value="{{ v|e }}" />
+  {% endfor %}
+  {% for id, prompt in inputs %}
+  <div class="form-group">
+    <label>{{ prompt }}</label>
+    <input type="text" name="{{ id }}" class="form-control" />
+  </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

@@ -2,35 +2,55 @@
 {% block title %}Modify User{% endblock %}
 {% block content %}
 <form action="user_mod" method="post">
-  <div class="form-group">
-    <label>Username
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Username</label>
       <input type="text" name="username" class="form-control"
-	     placeholder="{{ username|e }}"
-	     value="{{ username|e }}" readonly />
-    </label>
-</div>
-  <div class="form-group">
-    <label>Password
-      <input type="password" name="password" class="form-control" placeholder="Leave password unchanged">
-    </label>
+	     value="{{userdata.username|e}}" readonly />
+    </div>
+    <div class="form-group col-md-6">
+      <label>Password</label>
+      <input type="password" name="password" class="form-control" placeholder="Leave password unchanged" />
+    </div>
   </div>
-  <div class="form-group">
-    <label>E-mail
-      <input type="email" name="email" class="form-control" value="{{ email|e }}" />
-    </label>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Last Name</label>
+      <input type="text" name="last_name" class="form-control"
+	     value="{{userdata.last_name|e}}" />
+    </div>
+    <div class="form-group col-md-6">
+      <label>First Name</label>
+      <input type="text" name="first_name" class="form-control"
+	     value="{{userdata.first_name|e}}" />
+    </div>
   </div>
-  <div class="form-group">
-    <label>Real Name
-      <input type="text" name="realname" class="form-control" value="{{ realname|e }}" />
-    </label>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>E-mail</label>
+      <input type="text" name="email" class="form-control"
+	     value="{{userdata.email|e}}" />
+    </div>
+    <div class="form-group col-md-6">
+      <label>Phone Number</label>
+      <input type="text" name="phone_number" class="form-control"
+	     value="{{userdata.phone_number}}" />
+    </div>
   </div>
-  <div class="form-check">
-    <label class="form-check-label">
-      <input type="checkbox" name="admin" class="form-check-input"
-	     {% if is_admin %}checked{% endif %}
-	     >Administrator</input>
-    </label>
+  <div class="form-row">
+    <div class="form-check col-md-6">
+      <label class="form-check-label">
+	<input type="checkbox" name="admin" class="form-check-input"
+	       {% if userdata.is_admin %}checked{% endif %}/>Administrator
+      </label>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Role</label>
+      <input type="text" name="role" class="form-control" value="{{userdata.role|e}}" />
+    </div>
   </div>
+  <input type="hidden" name="user_id" value="{{ userdata.user_id }}" />
+  <input type="hidden" name="employee_id" value="{{ userdata.employee_id }}" />
   <button type="submit" class="btn btn-primary" name="action" value="modify">Update</button>
   <button type="submit" class="btn btn-danger" name="action" value="delete">Delete User</button>
 </form>

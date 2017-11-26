@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Departments{% endblock %}
+{% block content %}
+{% if admin %}
+<div class="container">
+	<div class="jumbotron mt-3">	
+		<a href="add_department" class="btn btn-primary" role="button">Add Department</a>
+	</div>
+</div>
+{% endif %}
+
+<div class="container">
+	<div class="table-responsive">
+		<table class="table table-striped">
+	
+	<form action="departments" method="post">
+	<table class="table table-striped">
+    <thead>
+      <tr>
+	<th>Department</th>
+	<th>Show Locations</th>
+	<th>Show Equipment</th>
+	{% if admin %}<th>Delete Department</th>{% endif %}
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for department_id, department_name in departments.items() %}
+      <tr>
+	<td>{{ department_name|e }}</td>
+	<td><button type="submit" class="btn btn-link"
+		    name="show_locations" value="{{ department_id }}">
+	    Show {{ department_name|e }} locations</button></td>
+	<td><button type="submit" class="btn btn-link"
+		    name="show_equipment" value="{{ department_id }}">
+	    Show {{ department_name|e }} equipment</button></td>
+	{% if admin %}
+	<td><button type="submit" class="btn btn-danger"
+		    name="delete_department" value="{{ department_id }}">
+	    Delete {{ department_name|e }}</button></td>
+	{% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+</div>
+</div>
+{% endblock %}

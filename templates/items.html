@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Equipment List{% endblock %}
+{% block content %}
+
+ <div class="jumbotron">
+      <div class="container">
+
+    <form action="/add_item" method="post">
+      <button type="submit" class="btn btn-primary">Add Item</button>
+    </form>	
+	</div>	
+</div>
+
+	<form action="/view_item" method="post">
+	 <div class="jumbotron">
+       <div class="table-responsive">
+      	<table class="table table-striped">
+	
+	<theader>
+	  <tr>
+	    <th />
+	    <th>Item Name</th>
+	    <th>Description</th>
+	    <th>Department</th>
+	    <th>Model#</th>
+	    <th>Serial#</th>
+	    <th>Category</th>
+	    <th>Item Type</th>
+	    <th>Location</th>
+	    <th>Date Added</th>
+	    <th>In Service</th>
+	    <th>Check Out</th>
+	    <th>Check In</th>
+
+	  </tr>
+	</theader>
+	
+	<tbody>
+	  {% for item in items %}
+	  <tr>
+	    <td>
+	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Edit</button>
+	    </td>
+	    <td>{{ item.Item_Name|e }}</td>
+	    <td>{{ item.Description|e }}</td>
+	    <td>{{ item.Department_Name|e }}</td>
+	    <td>{{ item.Model|e }}</td>
+	    <td>{{ item.Serial|e }}</td>
+	    <td>{{ item.Category_Name|e }}</td>
+	    <td>{{ item.Item_Type_Name|e }}</td>
+	    <td>{{ item.Location_Name|e }}</td>
+	    <td>{{ item.Date_Added|e }}</td>
+	    <td>{{ item.In_Service|e }}</td>
+
+	     <td>
+	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Check Out</button>
+	    </td>
+	    <td>
+	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Check In</button>
+	    </td>	
+	  </tr>
+	  {% endfor %}
+	</tbody>
+      </table>	
+    </div>
+  </div>
+</form>
+{% endblock %}

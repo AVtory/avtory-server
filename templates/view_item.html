@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Edit Item{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="jumbotron mt-2">
+    <p id="main_content">
+
+
+    <a class="btn btn-primary" href="item_list" role="button">Equipment</button></a>
+
+
+<!--START OF ITEM-->   
+<form action="view_item" method="post">
+  <div class="form-row">
+<!--Item_ID-->    
+    <div class="form-group col-md-6">
+      <label>Item-ID</label>
+      <input type="text" name="Item_ID" class="form-control"
+       value="{{item.Item_ID|e}}" readonly />
+    </div>
+<!--Category_ID-->
+   <div class="form-group col-md-6">
+      <label>Category ID</label>
+      <input type="text" name="Category_ID" class="form-control" value="{{item.Category_ID|e}}" readonly />
+    </div>
+  </div>
+
+
+<!--EDITABLE
+  Item Name-->
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Item Name</label>
+      <input type="text" name="itemName" class="form-control" value="{{item.Item_Name|e}}" />
+    </div>
+
+    <div class="form-group col-md-6">
+      <label>Item Description</label>
+      <input type="text" name="itemDescp" class="form-control" value="{{item.Description|e}}" />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Model</label>
+      <input type="text" name="itemName" class="form-control" value="{{item.Item_Name|e}}" />
+    </div>
+
+    <div class="form-group col-md-6">
+      <label>Serial</label>
+      <input type="text" name="itemDescp" class="form-control" value="{{item.Description|e}}" />
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="form-check col-md-6">
+      <label class="form-check-label">
+  <input type="checkbox" name="Check Out" class="form-check-input"/>Check Out
+      </label>
+    </div>
+
+ <div class="form-check col-md-6">
+      <label class="form-check-label">
+  <input type="checkbox" name="Check In" class="form-check-input"/>Check In
+      </label>
+    </div>
+
+
+
+  <div class="form-group col-md-6">
+    <button type="submit" class="btn btn-primary" name="action" value="modify">Update</button>
+    <button type="submit" class="btn btn-primary" name="action" value="modify">Check Process</button>
+    <button type="submit" class="btn btn-danger" name="action" value="delete">Delete Item</button>
+</div>
+</form>
+
+</div>
+</form>
+</p>
+
+
+<!---<p>
+{% for key, value in item.items() %}
+
+
+{{ key|e }}:{{ value|e }}</p>
+
+{% endfor %}
+
+
+-->
+
+{% endblock %}

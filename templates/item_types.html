@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Item Types{% endblock %}
 {% block content %}
+<div class="container">
+  <div class="jumbotron mt-3">
+    <a href="add_item_type" class="btn btn-primary" role="button">Add Item Type</a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="table-responsive">
+  <table class="table table-striped">
+    
 <form action="item_types" method="post">
   <table class="table table-striped">
     <thead>
@@ -15,7 +25,7 @@
 	<td><button type="submit" class="btn btn-link" name="show_items"
 		    value="{{ item_id }}">{{ item_type|e }}</button></td>
 	<td>{{ category|e }}</td>
-	{% if privs == "admin" %}
+	{% if admin %}
 	<td><button type="submit" class="btn btn-danger"
 		    name="delete_item" value="{{ item_id }}">Delete Item Type</button>
 	</td>
@@ -25,5 +35,6 @@
     </tbody>
   </table>
 </form>
-<div><a href="add_item_type" class="btn btn-primary" role="button">Add Item Type</a></div>
+</div>
+</div>
 {% endblock %}

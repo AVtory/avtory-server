@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Add Location{% endblock %}
+{% block content %}
+<form action="add_location" method="post">
+  <div class="form-group" style="padding:30px;">
+    <select class="form-control" name="department_id">
+      <option value="">Select Department</option>
+      {% for department_id, department_name in departments %}
+      <option value="{{ department_id }}">{{ department_name|e }}</option>
+      {% endfor %}
+    </select>
+    <input type="text" name="location" class="form-control" placeholder="Location Name" />
+    <button type="submit" class="btn btn-primary">Add Location</button>
+  </div>
+</form>
+{% endblock %}

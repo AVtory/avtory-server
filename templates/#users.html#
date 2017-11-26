@@ -4,19 +4,19 @@
 <div class="container">
   <div class="table-responsive">
     <table class="table table-striped">
-<form action="user_mod" method="post">
-  <input type="hidden" name="action" value="show" />
-  <table class="table table-striped">
-    <thead>
-      <tr>
-	<th>User Name</th>
-	<th>Last Name</th>
-	<th>First Name</th>
-	<th>E-Mail</th>
-	<th>Phone Number</th>
-	<th>Administrator</th>
-	<th>Role</th>
-      </tr>
+      <form action="user_mod" method="post">
+	<input type="hidden" name="action" value="show" />
+	<table class="table table-striped">
+	  <thead>
+	    <tr>
+	      <th>User Name</th>
+	      <th>Last Name</th>
+	      <th>First Name</th>
+	      <th>E-Mail</th>
+	      <th>Phone Number</th>
+	      <th>Administrator</th>
+	      <th>Role</th>
+	    </tr>
     </thead>
     <tbody>
       {% for employee_id, userdata in userlist.items() %}

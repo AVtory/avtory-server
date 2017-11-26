@@ -12,51 +12,86 @@
   <body>
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-	<a class="navbar-brand" href="/">
-	  <img src="/images/AV.png" width="50" height="auto"/>
-	</a>
-
-	<button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="/">
+          <img src="/images/AV.png" width="50" height="auto"/>
+        </a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" 
+                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
-	</button>
-
-	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        </button>
+          <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <!-- Buttons -->
           <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-	    <li class="nav-item"><a class="nav-link" href="categories">Categories</a></li>
-	    <li class="nav-item"><a class="nav-link" href="item_types">Item Types</a></li>
-	    {% if privs == 'admin' %}
-            <li class="nav-item"><a class="nav-link" href="users">User Management</a></li>
-	    {% endif %}
-            <li class="nav-item"><a class="nav-link" href="logout">Log Out</a></li>
+            <li class="nav-item"><a class="nav-link" href="departments">Departments</a></li>
+            <li class="nav-item"><a class="nav-link" href="locations">Locations</a></li>
+            <li class="nav-item"><a class="nav-link" href="categories">Categories</a></li>
+            <li class="nav-item"><a class="nav-link" href="item_types">Item Types</a></li>
+            <li class="nav-item"><a class="nav-link" href="item_list">Equipment</a></li>
+            {% if admin %}
+              <li class="nav-item"><a class="nav-link" href="users">User Management</a></li>
+            {% endif %}
+            <!-- LOGOUT MODAL -->
+            <li><a href="#" data-toggle="modal" data-target="#logoutModal">logout</a></li>
           </ul>
-	</div>
+        </div>
       </nav>
     </header>
 
+<!-- BEGIN MODAL CONTAINER -->
+<div class="container">  
+</div><!-- /.container -->
+
+<!-- Small modal -->
+<div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4>Log Out <i class="fa fa-lock"></i></h4>
+      </div>
+      <div class="modal-body">
+        <p><i class="fa fa-question-circle"></i> Are you sure you want to log-off? <br /></p>
+        <div class="actionsBtns">
+            <form action="/logout" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <a class="nav-link" href="logout">Logout </a>
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END MODAL CONTAINER -->
+
     <!-- main content -->
     <div class="container" id="main_content">
-      {% if error_msg %}
+    {% if error_msg %}
       <div>
-	{{ error_msg }}
+        {{ error_msg }}
       </div>
-      {% endif %}
-      {% block content %}{% endblock %}
+    {% endif %}
+    {% block content %}
+    {% endblock %}
     </div>
-    <!-- end content -->
+    <!-- End Main Content -->
 
     <!--BOTTOM NAV BAR-->
     <nav class="navbar fixed-bottom navbar-expand navbar-dark bg-dark">
       <!--BOTTOM DROP UP-->
       <li class="nav-item dropup" style="list-style-type:none" >
 	<a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false">
-          <img src="images/arrowuppWhite.png" width="25" height="auto">
+          <img src="/images/arrowuppWhite.png" width="25" height="auto">
 	</a>
 	<div class="dropdown-menu" aria-labelledby="dropdown10">
-          <a class="dropdown-item" href="/">Home</a>
-          <a class="dropdown-item" href="categories">Categories</a>
+	  <a class="dropdown-item" href="/">Home</a>
+	  <a class="dropdown-item" href="departments">Departments</a>
+	  <a class="dropdown-item" href="locations">Locations</a>
+	  <a class="dropdown-item" href="categories">Categories</a>
 	  <a class="dropdown-item" href="item_types">Item Types</a>
-	  {% if privs == 'admin' %}
+	  <a class="dropdown-item" href="item_list">Equipment</a>
+	  {% if admin %}
 	  <a class="dropdown-item" href="users">User Management</a>
 	  {% endif %}
 	</div>
