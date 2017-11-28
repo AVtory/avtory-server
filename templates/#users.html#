@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}User List{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <form action="user_mod" method="post">
+	<input type="hidden" name="action" value="show" />
+	<table class="table table-striped">
+	  <thead>
+	    <tr>
+	      <th>User Name</th>
+	      <th>Last Name</th>
+	      <th>First Name</th>
+	      <th>E-Mail</th>
+	      <th>Phone Number</th>
+	      <th>Administrator</th>
+	      <th>Role</th>
+	    </tr>
+    </thead>
+    <tbody>
+      {% for employee_id, userdata in userlist.items() %}
+      <tr>
+	<td><button type="submit" class="btn btn-link" name="employee_id"
+		    value="{{ employee_id }}">{{ userdata['username']|e }}</button></td>
+	{% for data in ['last_name', 'first_name', 'email', 'phone_number', 'is_admin', 'role'] %}
+	<td>{{ userdata[data]|e }}</td>
+	{% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+</table>
+</div>
+</div>
+
+<div><a href="create_user" class="btn btn-primary" role="button">Create User</a></div>
+{% endblock %}
