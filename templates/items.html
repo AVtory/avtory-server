@@ -14,11 +14,11 @@
 </div><!--./jumbotron-->
 
 <div class="table-responsive">
- <table class="table table-sm table-striped">
+ <table class="table able-sm table-striped">
 	<form action="/view_item" method="post">	
 	<theader>
 	  <tr>
-	    <th>EDIT</th>
+	  	<th>EDIT</th>
 	    <th>Item Name</th>
 	    <th>Description</th>
 	    <th>Department</th>
@@ -29,33 +29,28 @@
 	    <th>Location</th>
 	    <th>Date Added</th>
 	    <th>In Service</th>
+	  <!--
 	    <th>Check Out</th>
 	    <th>Check In</th>
+	  -->
 	  </tr>
 	</theader>
 	<tbody>
 	  {% for item in items %}
 	  <tr>
-	    <td>
+	  	<td>
 	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Edit</button>
 	    </td>
-	    <th>{{ item.Item_Name|e }}</td>
-	    <th>{{ item.Description|e }}</td>
-	    <th>{{ item.Department_Name|e }}</td>
-	    <th>{{ item.Model|e }}</td>
-	    <th>{{ item.Serial|e }}</td>
-	    <th>{{ item.Category_Name|e }}</td>
-	    <th>{{ item.Item_Type_Name|e }}</td>
-	    <th>{{ item.Location_Name|e }}</td>
-	    <th>{{ item.Date_Added|e }}</td>
-	    <th>{{ item.In_Service|e }}</td>
-
-	     <th>
-	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Check Out</button>
-	    </td>
-	    <th>
-	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Check In</button>
-	    </td>	
+	    <td>{{ item.Item_Name|e }}</td>
+	    <td>{{ item.Description|e }}</td>
+	    <td>{{ item.Department_Name|e }}</td>
+	    <td>{{ item.Model|e }}</td>
+	    <td>{{ item.Serial|e }}</td>
+	    <td>{{ item.Category_Name|e }}</td>
+	    <td>{{ item.Item_Type_Name|e }}</td>
+	    <td>{{ item.Location_Name|e }}</td>
+	    <td>{{ item.Date_Added|e }}</td>
+	    <td>{{ item.In_Service|e }}</td>	  
 	  </tr>
 	  {% endfor %}
 	 </tbody>
@@ -65,3 +60,17 @@
 
 
 {% endblock %}
+<!--
+	  	<td>
+	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Edit</button>
+	    </td>
+
+	     <td>
+	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Check Out</button>
+	    </td>
+
+	    <td>
+	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Check In</button>
+	    </td>	
+	  -->
+
