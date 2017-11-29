@@ -1,15 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Add Location{% endblock %}
 {% block content %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- JavaScript to get text from input-->
+<script type="text/javascript">
+    $(document).ready(function() {
+        var location_name = $('#location_name');
+        var submit_location = $('#submit_location');
+        submit_location.click(function() {
+            alert(location_name.val());
+        });
+    });
+</script>
+
+
+<!--.container jumbotron mt-3 cad card-body-->
+<div class="container">
+ <div class="jumbotron mt-3">
+  <div class="card card-body">
+
+  <h1>Add Location</h1>
+
+<!--add_location-->
 <form action="add_location" method="post">
-  <div class="form-group">
+  <div class="form-group" style="padding:30px;">
     <select class="form-control" name="department_id">
+      <option value="">Select Department</option>
       {% for department_id, department_name in departments %}
       <option value="{{ department_id }}">{{ department_name|e }}</option>
       {% endfor %}
     </select>
-    <input type="text" name="location" class="form-control" placeholder="Location Name" />
-    <button type="submit" class="btn btn-primary">Add Location</button>
+    <input type="text" id="location_name" name="location" class="form-control" placeholder="Location Name" /><br/>
+    <center>
+      <button type="submit" id="submit_location" class="btn btn-primary">Add Location</button>
+      <button type="reset" value="reset" class="btn btn-primary">Clear</button><p></p>    <p></p>
+    </center>
+<h1></h1>
+
   </div>
 </form>
+
+
+<!--.container jumbotron mt-3 card card-body-->
+    </div>
+  </div>
+</div>
+
 {% endblock %}

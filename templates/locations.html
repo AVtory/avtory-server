@@ -1,6 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Locations{% endblock %}
 {% block content %}
+
+<div class="container">
+	<div class="jumbotron mt-3">
+		<a href="add_location" class="btn btn-primary" role="button">Add Location</a>
+	</div>
+</div>
+
+<div class="container">
+	<div class="table-responsive">
 <form action="locations" method="post">
   <table class="table table-striped">
     <thead>
@@ -30,5 +39,8 @@
     </tbody>
   </table>
 </form>
-<div><a href="add_location" class="btn btn-primary" role="button">Add Location</a></div>
+
+</div>
+</div>
+
 {% endblock %}

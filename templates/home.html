@@ -1,5 +1,121 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-Home
+
+<div class="body_container">
+<center>
+  <img class="center-block" src="/images/logo/AV.png" align="center-block"></p>
+  <h1> Links</h1>
+</center>
+
+<div class="form-row">
+  <div class="table-responsive">
+    <table class="table table-striped">
+  <center>
+  <td>
+    <form action="/add_item" method="post">
+      <button type="submit" class="btn btn-primary">Add Item</button>
+    </form>
+  </td>
+  <td>
+    <a href="add_department" class="btn btn-primary" role="button">Add Department</a>
+  </td>
+  <td> 
+      <a href="add_location" class="btn btn-primary" role="button">Add Location</a>
+  </td>
+  <td>
+    <a href="add_category" class="btn btn-primary" role="button">Add Category</a>
+  </td>
+  <tr>
+  <td> 
+    <a href="add_item_type" class="btn btn-primary" role="button">Add Item Type</a> 
+  </td>
+  <td>
+    <a class="btn btn-primary" href="item_list" role="button">Check In/Out Process</a>
+   </td>
+   </tr>
+ </center>
+ </table>
+</div><!--.form-row-->
+</div><!--.trable-responsive-->
+<p></p>
+</div>
+
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<h4>Recent Equipment Added
+						<a href=""><img src="../images/setting.png" width="25" height="auto"></a>
+					</h4>
+					<thead><tr>
+						<th>Date Added</th>
+						<th>Time</th>
+						<th>Item</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>11-16-17</td>
+              			<td>12:00pm</td>
+			              <td>iPad</td>
+			          </tr>
+			      </table>          
+
+			      <table class="table table-striped">
+					<h4>Recent Checked In
+              			<a href=""><img src="../images/setting.png" width="25" height="auto"></a>
+              		</h4>
+              	<thead>
+              	<tr>
+                	<th>Date Added</th>
+                	<th>Time</th>
+                	<th>Item</th>
+              	</tr>
+          	</thead>
+          	<tbody>
+            <tr>
+              	<td>11-15-17</td>
+              	<td>12:00pm</td>
+              	<td>Speaker</td>
+           	 </tr>
+         	</table>
+
+         <table class="table table-striped">
+              <h4>Recent Checked Out
+              <a href="">
+                <img src="../images/setting.png" width="25" height="auto">
+              </a>
+              </h4>
+              <thead><tr>
+                <th>Date Added</th>
+                <th>Time</th>
+                <th>Item</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>11-10-17</td>
+              <td>2:00pm</td>
+              <td>Mircophone</td>
+            </tr>
+         </table>
+        </div>
+
+        </div>
+
+
+
+	<div class="jumbotron mt-3">
+		<p id="About">
+			<li>AVtory is a web application that has helps manage equipment and inventory.</li>
+			<li>AVtory systems would improve efficiency by providing the employees with a secure and user-friendly interface to interact with their equipment stored in a database.</li>
+			<li>Problem Statement Many organizations manage their inventory through custom spreadsheets or text documents, which are error prone and time consuming.</li> 
+			<li>Commercial solutions to this problem exist, but they are expensive.</li>
+			<li>Open source solutions also exist, but most of them lack essential features such as the ability to check out equipment.</li>
+			<li>Therefore, we will create our own system to manage inventory.</li>
+			<li>
+			Contributors to AVtory:</br></li>
+		</p>
+	</div>
+
+
 {% endblock %}

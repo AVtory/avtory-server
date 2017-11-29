@@ -1,8 +1,20 @@
 {% extends "base.html" %}
 {% block title %}Categories{% endblock %}
 {% block content %}
-<form id="category_form" action="categories" method="post">
-  <table class="table table-striped">
+{% if admin %}
+<div class="container">
+	<div class="jumbotron mt-3">
+		<a href="add_category" class="btn btn-primary" role="button">Add Category</a>
+	</div>
+</div>
+{% endif %}
+
+<div class="container">
+	<div class="table-responsive">
+	<table class="table table-striped">
+
+	<form id="category_form" action="categories" method="post">
+	<table class="table table-striped">
     <thead>
       <tr>
 	<th>Category</th>
@@ -30,7 +42,6 @@
     </tbody>
   </table>
 </form>
-{% if admin %}
-<div><a href="add_category" class="btn btn-primary" role="button">Add Category</a></div>
-{% endif %}
+</div>
+</div>
 {% endblock %}

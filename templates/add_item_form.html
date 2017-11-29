@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Add Equipment{% endblock %}
 {% block content %}
+
+
+<!--.container jumbotron mt-3 card card-body-->
+<div class="container">
+ <div class="jumbotron mt-3">
+  <div class="card card-body">
+
+<!--add_item-->
+<h1>Add Item☁</h1>
+
+<!--add_item-->
 <form action="add_item" method="post">
   {% for k, v in data.items() %}
   <input type="hidden" name="{{ k }}" value="{{ v|e }}" />
@@ -13,4 +24,15 @@
   {% endfor %}
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<!--add_item-->
+
+
+<!--.card card body-->
+</div>
+
+<!--.container jumbotron mt-3-->
+  </div>
+</div>
+
+
 {% endblock %}

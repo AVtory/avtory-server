@@ -2,10 +2,21 @@
 {% block title %}Departments{% endblock %}
 {% block content %}
 {% if admin %}
-<div><a href="add_department" class="btn btn-primary" role="button">Add Department</a></div>
+<div class="jumbotron">
+	<h1>Adding a Department</h1>
+	<div class="body_container">
+	<center>	
+		<a href="add_department" class="btn btn-primary" role="button">Add Department</a>
+</center>
 {% endif %}
-<form action="departments" method="post">
-  <table class="table table-striped">
+</div><!--./jumbotron-->
+
+<div class="body_cont">
+	<div class="table-responsive">
+		<table class="table table-sm table-striped">
+	
+	<form action="departments" method="post">
+	<table class="table table-striped">
     <thead>
       <tr>
 	<th>Department</th>
@@ -14,6 +25,7 @@
 	{% if admin %}<th>Delete Department</th>{% endif %}
       </tr>
     </thead>
+
     <tbody>
       {% for department_id, department_name in departments.items() %}
       <tr>
@@ -34,4 +46,8 @@
     </tbody>
   </table>
 </form>
+</div>
+</div>
+</div><!--./jumbotron-->
+
 {% endblock %}

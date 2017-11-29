@@ -1,13 +1,24 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<div class="card card-body">
-  <form action="login" method="post">
-    <div class="form-group">
+ <div class="jumbotron mt-3">
+  <div class="card card-body">
+  
+  <p id="main_content">
+    <img src="../images/logo/AV-logo-2.png" width="250" height="auto">
+
+  	<form action="login" method="post">
+     <div class="form-group">
       <input type="text" name="username" class="form-control" placeholder="Username" />
-      <input type="password" name="password" class="form-control" placeholder="Password" />
-      <button type="submit" class="btn btn-primary">Login</button>
+      <input type="password" name="password" class="form-control" placeholder="Password" /><br/>
+      <center>
+      	<button type="submit" class="btn btn-primary">Login</button>
+      </center>
     </div>
   </form>
+  </p>
+
+  </div>
+ </div>
 </div>
 {% endblock %}
