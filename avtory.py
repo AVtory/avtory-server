@@ -12,7 +12,7 @@ from category import (category_list, category_post, add_category_get,
                       add_category_post)
 from item_types import (type_list, add_item_type_get, add_item_type_post,
                         item_type_post)
-from items import item_list, add_item_post, view_item
+from items import item_list, add_item_post, view_item, view_item_mod
 from department import (department_list, department_post, add_department_get,
                         add_department_post)
 from location import (location_list, location_post, add_location_get,
@@ -37,7 +37,7 @@ def main():
     )
     app['session'] = SimpleSessionManager()
     app['pool'] = create_pool(app['config'].items('mysql'))
-
+    '''WEBPAGE -> PYTHON FUNCTION'''
     app.router.add_get('/', home)
     app.router.add_get('/login', login_get)
     app.router.add_post('/login', login_post)
@@ -61,6 +61,9 @@ def main():
     app.router.add_get('/item_list', item_list)
     app.router.add_post('/add_item', add_item_post)
     app.router.add_post('/view_item', view_item)
+    ''' EDIT ITEMS'''
+    app.router.add_post('/view_mod', view_item_mod)
+
 
     app.router.add_get('/departments', department_list)
     app.router.add_post('/departments', department_post)

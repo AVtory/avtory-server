@@ -151,7 +151,7 @@ async def item_list(request, where_name=None, where_value=None):
                         .render(admin=session_data['admin'], items=items),
                         content_type='text.html')
 
-# DELETE ITEM
+#DELETE ITEM
 async def delete_item(request, item_id):
     ''' Deletes a Equipment Item & redirects to item_list page '''
     _, session_data = request.app['session'].get_session(request, True)
@@ -163,6 +163,7 @@ async def delete_item(request, item_id):
             await conn.commit()
             raise web.HTTPFound('/item_list')
 
+'''WAITING FOR USER ACTION '''
 async def view_item_mod(request):
     '''
     Edit/Update an Item from the view_item page
@@ -186,32 +187,16 @@ async def modify_item(request, data):
             await cur.execute(
                 """UPDATE ITEM
                 SET Item_Name = %s,
-                Item_Description = %s,
-                Item_Model = %s,
-                Item_Serial = %s,
-                Check_Out = %s,
-                Check_In = %s
+                Description = %s,
+                Model = %s,
+                Serial = %s
                 WHERE item_id=%s""",
                 (data['item_name'],
                  data['item_descp'],
                  data['item_model'],
-                 data['item_serial'],                    
-                 data['check_out'],
-                 data['check_in']))
-             await conn.commit()
-    raise web.HTTPFound('/users')
-
-async def item_mod(request):
-    data = await request.post()
-    action = data['action']
-
-    if action == 'delete':
-        return await delete_item(request, data['item_id'])
-    elif action == 'show':
-        return await show_item(request, data['item_id'])
-    elif action == 'modify':
-        return await modify_user(request, data)
-
+                 data['item_serial']))
+            await conn.commit()
+    raise web.HTTPFound('/item_list')
 
 if __name__ == "__main__":
     parser = ArgumentParser("Add an administrator to the database")
@@ -219,8 +204,6 @@ if __name__ == "__main__":
     parser.add_argument('-l', '--item_descp', required=True)
     parser.add_argument('-f', '--item_model', required=True)
     parser.add_argument('-e', '--item_serial', required=True)
-    parser.add_argument('-p', '--check_out', required=True)
-    parser.add_argument('-r', '--check_out', required=True)
 
     args = vars(parser.parse_args())
     config = read_config()
