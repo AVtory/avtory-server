@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from aiohttp import web
+from item_types import type_list
+from items import item_list
 
 
 async def add_category_post(request):
-    session_id, session_data = (request.app['session']
-                                .get_session(request, True))
+    _, session_data = request.app['session'].get_session(request, True)
     data = await request.post()
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
@@ -18,17 +19,16 @@ async def add_category_post(request):
 
 
 async def add_category_get(request):
-    session_id, session_data = (request.app['session']
-                                .get_session(request, True))
+    _, session_data = request.app['session'].get_session(request, True)
     return web.Response(text=request
                         .app['env']
                         .get_template('add_category.html')
-                        .render(privs=session_data['privs']),
+                        .render(admin=session_data['admin']),
                         content_type='text/html')
 
 
 async def category_list(request):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
@@ -41,18 +41,13 @@ async def category_list(request):
                           in await cur.fetchall()}
     return web.Response(text=request.app['env']
                         .get_template('categories.html')
-                        .render(privs=session_data['privs'],
+                        .render(admin=session_data['admin'],
                                 categories=categories),
                         content_type='text/html')
 
 
-async def show_equipment(request, data, session_data):
-    pass
-
-
 async def delete_categories(request, data):
-    session_id, session_data = (request.app['session']
-                                .get_session(request, True))
+    _, session_data = request.app['session'].get_session(request, True)
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute(
@@ -63,9 +58,12 @@ async def delete_categories(request, data):
 
 
 async def category_post(request):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
     data = await request.post()
-    if 'show_equipment' in data:
-        return await show_equipment(request, data, session_data)
+    if 'show_item_types' in data:
+        return await type_list(request, data['show_item_types'])
+    elif 'show_equipment' in data:
+        return await item_list(request, where_name='ITEM.category_id',
+                               where_value=data['show_equipment'])
     elif 'delete_category' in data:
         return await delete_categories(request, data)

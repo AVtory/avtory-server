@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import secrets
+import string
 from aiohttp import web
 from hashlib import pbkdf2_hmac
 from base64 import b64encode, b64decode
@@ -16,7 +17,7 @@ def hash_pw(password, salt, work_factor):
 
 
 async def logout(request):
-    session_id, session_data = (request.app['session'].get_session(request))
+    session_id, session_data = request.app['session'].get_session(request)
     response = web.Response(text='''<html><head>
     <meta http-equiv="refresh" content="0; url=/" />
     </head></html>''', content_type='text/html')
@@ -24,107 +25,142 @@ async def logout(request):
     return response
 
 
-async def user_mod(request):
-    session_id, session_data = (request
-                                .app['session']
-                                .get_session(request, True))
-    data = await request.post()
-    username = data['username']
-    action = data['action']
+async def delete_user(request, user_id):
+    _, session_data = request.app['session'].get_session(request, True)
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute("""
+            DELETE FROM USERS
+            WHERE user_id=%s""", (user_id,))
+            await conn.commit()
+            raise web.HTTPFound('/users')
+
+
+async def show_user(request, employee_id):
+    _, session_data = request.app['session'].get_session(request, True)
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                """SELECT USERS.user_id, employee_id, USERS.username,
+                last_name, first_name, email,
+                phone_number, is_admin, role
+                FROM EMPLOYEE
+                JOIN USERS ON USERS.user_id=EMPLOYEE.user_id
+                WHERE employee_id=%s""", (employee_id,))
+            userdata = {key: value
+                        for key, value
+                        in zip((col[0] for col in cur.description),
+                               await cur.fetchone())}
+            return web.Response(text=request.app['env']
+                                .get_template('user_mod.html')
+                                .render(admin=session_data['admin'],
+                                        userdata=userdata),
+                                content_type='text/html')
+
+
+async def modify_user(request, data):
+    _, session_data = request.app['session'].get_session(request, True)
+    phonenumber = [n for n in data['phone_number']
+                   if n in string.digits]
+    phonenumber.insert(3, '-')
+    phonenumber.insert(7, '-')
+    phonenumber = ''.join(phonenumber)
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
-            if action == 'delete':
-                await cur.execute("""
-                DELETE FROM users
-                WHERE username=%s;""",
-                                  (username,))
-                await conn.commit()
-                raise web.HTTPFound('/users')
-            elif action == 'show':
-                await cur.execute("""
-                SELECT email, realname, privs
-                FROM users
-                WHERE username=%s;""",
-                                  (username,))
-                email, realname, userprivs = await cur.fetchone()
-                email = "" if email is None else email
-                realname = "" if realname is None else realname
-                response = web.Response(text=request.app['env']
-                                        .get_template('user_mod.html')
-                                        .render(privs=session_data['privs'],
-                                                username=username,
-                                                email=email,
-                                                realname=realname,
-                                                is_admin=userprivs == "admin"),
-                                        content_type='text/html')
-                return response
-            elif action == 'modify':
-                email = data['email'] if 'email' in data else None
-                realname = data['realname'] if 'realname' in data else None
-                privs = ('admin'
-                         if 'admin' in data and data['admin'] == 'on'
-                         else 'user')
-                await cur.execute("""UPDATE users
-                SET email = %s,
-                realname = %s,
-                privs = %s
-                WHERE username = %s
-                """, (email, realname, privs, username))
-
-                if data['password'] != "":
-                    salt = secrets.token_urlsafe(32).encode()
-                    password_hash = hash_pw(data['password'].encode(),
-                                            salt, 15)
-                    password_hash = b64encode(password_hash)
-                    await cur.execute("""UPDATE users
-                    SET password_hash = %s,
-                    salt = %s
-                    WHERE username = %s
-                    """, (password_hash, salt, username))
-                await conn.commit()
-                raise web.HTTPFound('/users')
+            await cur.execute(
+                """UPDATE EMPLOYEE
+                SET Last_Name = %s,
+                First_Name = %s,
+                Email = %s,
+                Phone_Number = %s,
+                Is_Admin = %s,
+                Role = %s
+                WHERE employee_id=%s""",
+                (data['last_name'],
+                 data['first_name'],
+                 data['email'],
+                 phonenumber,
+                 1 if 'admin' in data and data['admin'] == 'on' else 0,
+                 data['role'],
+                 data['employee_id']))
+            if data['password'] != '':
+                salt = secrets.token_urlsafe(32).encode()
+                password_hash = hash_pw(data['password'].encode(),
+                                        salt, 15)
+                password_hash = b64encode(password_hash)
+                await cur.execute(
+                    """UPDATE USERS
+                    SET Password_Hash = %s,
+                    Salt = %s
+                    WHERE user_id = %s
+                    """, (password_hash, salt, data['user_id']))
+            await conn.commit()
+    raise web.HTTPFound('/users')
 
 
-async def insert_user(pool, username, password, admin='user',
-                      email=None, name=None):
+async def user_mod(request):
+    data = await request.post()
+    action = data['action']
+
+    if action == 'delete':
+        return await delete_user(request, data['user_id'])
+    elif action == 'show':
+        return await show_user(request, data['employee_id'])
+    elif action == 'modify':
+        return await modify_user(request, data)
+
+
+async def insert_user(pool, username, password, lastname, firstname, email,
+                      phonenumber, admin, role):
     salt = secrets.token_urlsafe(32).encode()
     password_hash = hash_pw(password, salt, 15)
     password_hash = b64encode(password_hash)
 
+    phonenumber = [n for n in phonenumber
+                   if n in string.digits]
+    phonenumber.insert(3, '-')
+    phonenumber.insert(7, '-')
+    phonenumber = ''.join(phonenumber)
+
     async with pool.acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute("""
-            INSERT INTO users
-            (username, email, realname, password_hash, salt, privs)
-            VALUES (%s, %s, %s, %s, %s, %s)""",
-                              (username, email, name, password_hash,
-                               salt, admin))
+            INSERT INTO USERS
+            (Username, Password_Hash, Salt, Work_Factor)
+            VALUES (%s, %s, %s, %s)""",
+                              (username, password_hash, salt, 15))
+            await cur.execute("""
+            INSERT INTO EMPLOYEE
+            (user_id, First_Name, Last_Name,
+            Email, Phone_Number, Is_Admin, Role)
+            VALUES (LAST_INSERT_ID(), %s, %s, %s, %s, %s, %s)""",
+                              (firstname, lastname,
+                               email, phonenumber, admin, role))
             await conn.commit()
 
 
 async def create_user(request):
-    session_id, session_data = (request
-                                .app['session']
-                                .get_session(request, True))
+    _, session_data = request.app['session'].get_session(request, True)
     data = await request.post()
 
     if len(data) > 0:
         username = data['username']
         password = data['password'].encode()
-        name = data['name'] if data['name'] != "" else None
-        email = data['email'] if data['email'] != "" else None
-        admin = ('admin'
-                 if 'admin' in data and data['admin'] == 'on'
-                 else 'user')
+        lastname = data['lastname']
+        firstname = data['firstname']
+        email = data['email']
+        phonenumber = data['phonenumber']
+        role = data['role']
+        admin = 1 if 'admin' in data and data['admin'] == 'on' else 0
 
-        await insert_user(request.app['pool'], username,
-                          password, admin, email, name)
+        await insert_user(request.app['pool'], username, password, lastname,
+                          firstname, email, phonenumber, admin, role)
 
     return web.Response(text=request
                         .app['env']
                         .get_template('create_user.html')
-                        .render(privs=session_data['privs']),
+                        .render(admin=session_data['admin']),
                         content_type='text/html')
 
 
@@ -137,26 +173,28 @@ async def login_get(request):
 
 
 async def users(request):
-    session_id, session_data = (request
-                                .app['session']
-                                .get_session(request, True))
+    _, session_data = (request.app['session'].get_session(request, True))
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute(
-                """SELECT username, realname, email, privs
-                FROM users""")
-            userlist = {username: [realname, email, privs]
-                        for username, realname, email, privs
+                """SELECT USERS.user_id, employee_id, USERS.username,
+                last_name, first_name, email,
+                phone_number, is_admin, role
+                FROM EMPLOYEE
+                JOIN USERS ON USERS.user_id=EMPLOYEE.user_id""")
+            columns = tuple((col[0] for col in cur.description))
+            userlist = {row[1]: {key: value
+                                 for key, value
+                                 in zip(columns, row)}
+                        for row
                         in await cur.fetchall()}
 
-    response = web.Response(text=request.app['env']
-                            .get_template('users.html')
-                            .render(privs=session_data['privs'],
-                                    userlist=userlist),
-                            content_type='text/html')
-
-    return response
+    return web.Response(text=request.app['env']
+                        .get_template('users.html')
+                        .render(admin=session_data['admin'],
+                                userlist=userlist),
+                        content_type='text/html')
 
 
 async def login_post(request):
@@ -166,9 +204,10 @@ async def login_post(request):
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute(
-                """SELECT password_hash, salt, work_factor, privs
-                FROM users
-                WHERE username=%s""",
+                """SELECT Password_Hash, Salt, Work_Factor, EMPLOYEE.Is_Admin
+                FROM USERS
+                JOIN EMPLOYEE ON USERS.user_id=EMPLOYEE.user_id
+                WHERE Username=%s""",
                 username)
             if cur.rowcount == 0:
                 return web.Response(
@@ -176,13 +215,14 @@ async def login_post(request):
                     .get_template('login.html')
                     .render(error_msg="Invalid username or password"),
                     content_type='text/html')
-            password_hash, salt, work_factor, privs = await cur.fetchone()
-            salt = salt.encode()
-            password_hash = b64decode(password_hash)
+            password_hash, salt, work_factor, is_admin = await cur.fetchone()
+
+    salt = salt.encode()
+    password_hash = b64decode(password_hash)
 
     if password_hash == hash_pw(password, salt, work_factor):
         session_id, session_data = request.app['session'].new_session(request)
-        session_data['privs'] = privs
+        session_data['admin'] = bool(is_admin)
 
         response = web.Response(text='''<html><head>
         <meta http-equiv="refresh" content="0; url=/" />
@@ -203,8 +243,11 @@ async def login_post(request):
 if __name__ == "__main__":
     parser = ArgumentParser("Add an administrator to the database")
     parser.add_argument('-u', '--username', required=True)
-    parser.add_argument('-n', '--name', '--realname')
-    parser.add_argument('-e', '--email')
+    parser.add_argument('-l', '--lastname', required=True)
+    parser.add_argument('-f', '--firstname', required=True)
+    parser.add_argument('-e', '--email', required=True)
+    parser.add_argument('-p', '--phonenumber', required=True)
+    parser.add_argument('-r', '--role', required=True)
 
     args = vars(parser.parse_args())
     password = getpass().encode()
@@ -212,15 +255,10 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     pool = create_pool(config.items('mysql'))
 
-    if 'name' not in args:
-        args['name'] = None
-    if 'email' not in args:
-        args['email'] = None
-
     try:
         loop.run_until_complete(
-            insert_user(pool, args['username'], password, admin='admin',
-                        email=args['email'], name=args['name']))
-
+            insert_user(pool, args['username'], password, args['lastname'],
+                        args['firstname'], args['email'], args['phonenumber'],
+                        1, args['role']))
     finally:
         pool.close()

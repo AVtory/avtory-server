@@ -12,16 +12,20 @@ from category import (category_list, category_post, add_category_get,
                       add_category_post)
 from item_types import (type_list, add_item_type_get, add_item_type_post,
                         item_type_post)
+from items import item_list, add_item_post, view_item
+from department import (department_list, department_post, add_department_get,
+                        add_department_post)
+from location import (location_list, location_post, add_location_get,
+                      add_location_post)
 
 
 async def home(request):
-    session_id, session_data = request.app['session'].get_session(request)
-    response = web.Response(text=request
-                            .app['env']
-                            .get_template('home.html')
-                            .render(privs=session_data['privs']),
-                            content_type="text/html")
-    return response
+    _, session_data = request.app['session'].get_session(request)
+    return web.Response(text=request
+                        .app['env']
+                        .get_template('home.html')
+                        .render(admin=session_data['admin']),
+                        content_type="text/html")
 
 
 def main():
@@ -53,6 +57,20 @@ def main():
     app.router.add_post('/item_types', item_type_post)
     app.router.add_get('/add_item_type', add_item_type_get)
     app.router.add_post('/add_item_type', add_item_type_post)
+
+    app.router.add_get('/item_list', item_list)
+    app.router.add_post('/add_item', add_item_post)
+    app.router.add_post('/view_item', view_item)
+
+    app.router.add_get('/departments', department_list)
+    app.router.add_post('/departments', department_post)
+    app.router.add_get('/add_department', add_department_get)
+    app.router.add_post('/add_department', add_department_post)
+
+    app.router.add_get('/locations', location_list)
+    app.router.add_post('/locations', location_post)
+    app.router.add_get('/add_location', add_location_get)
+    app.router.add_post('/add_location', add_location_post)
 
     logger = logging.getLogger('aiohttp.access')
     logger.setLevel(logging.DEBUG)

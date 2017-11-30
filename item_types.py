@@ -3,9 +3,11 @@
 
 from aiohttp import web
 
+from items import item_list
+
 
 async def add_item_type_get(request):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute('''SELECT Category_ID, Category_Name
@@ -13,15 +15,14 @@ async def add_item_type_get(request):
             ORDER BY Category_Name''')
             return web.Response(text=request.app['env']
                                 .get_template('add_item_type.html')
-                                .render(privs=session_data['privs'],
+                                .render(admin=session_data['admin'],
                                         categories=await cur.fetchall()),
                                 content_type='text/html')
 
 
 async def add_item_type_post(request):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
     data = await request.post()
-    print(data)
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
@@ -33,20 +34,29 @@ async def add_item_type_post(request):
     return await add_item_type_get(request)
 
 
-async def type_list(request):
-    session_id, session_data = request.app['session'].get_session(request)
+async def type_list(request, category_id=None):
+    _, session_data = request.app['session'].get_session(request)
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
-            await cur.execute(
-                '''SELECT Item_Type_ID, Category_Name, Item_Type_Name
-                FROM ITEM_TYPE
-                LEFT JOIN CATEGORY
-                ON ITEM_TYPE.Category_ID=CATEGORY.Category_ID
-                ORDER BY Category_Name, Item_Type_Name''')
+            if category_id is None:
+                await cur.execute(
+                    '''SELECT Item_Type_ID, Category_Name, Item_Type_Name
+                    FROM ITEM_TYPE
+                    JOIN CATEGORY
+                    ON ITEM_TYPE.Category_ID=CATEGORY.Category_ID
+                    ORDER BY Category_Name, Item_Type_Name''')
+            else:
+                await cur.execute(
+                    '''SELECT Item_Type_ID, Category_Name, Item_Type_Name
+                    FROM ITEM_TYPE
+                    JOIN CATEGORY
+                    ON ITEM_TYPE.Category_ID=CATEGORY.Category_ID
+                    AND ITEM_TYPE.Category_ID=%s
+                    ORDER BY Category_Name, Item_Type_Name''', (category_id,))
             return web.Response(text=request.app['env']
                                 .get_template('item_types.html')
-                                .render(privs=session_data['privs'],
+                                .render(admin=session_data['admin'],
                                         item_types=await cur.fetchall()),
                                 content_type='text/html')
 
@@ -63,7 +73,10 @@ async def delete_item(request, data):
 
 
 async def item_type_post(request):
-    session_id, session_data = request.app['session'].get_session(request)
+    _, session_data = request.app['session'].get_session(request)
     data = await request.post()
     if 'delete_item' in data:
         return await delete_item(request, data)
+    elif 'show_items' in data:
+        return await item_list(request, where_name='ITEM.item_type_id',
+                               where_value=data['show_items'])
