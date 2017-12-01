@@ -1,10 +1,45 @@
 {% extends "base.html" %}
 {% block title %}Add Department{% endblock %}
 {% block content %}
+
+<!-- JavaScript to get text from input-->
+<script type="text/javascript">
+    $(document).ready(function() {
+        var department_name = $('#department_name');
+        var submit_department = $('#submit_department');
+        submit_department.click(function() {
+            alert(department_name.val());
+        });
+    });
+</script>
+
+<!--START .container jumbotron mt-3 cad card-body-->
+<div class="container">
+ <div class="jumbotron mt-3">
+  <div class="card card-body">
+    <h1>Add Department</h1>
+
+<!-- Begin form to add Department -->
 <form action="add_department" method="post">
   <div class="form-group">
-    <input type="text" name="department" class="form-control" placeholder="Department Name" />
-    <button type="submit" class="btn btn-primary">Add Department</button>
+    <input type="text" id="department_name" name="department" class="form-control" placeholder="Department Name" />
+    
+    <!-- NEED TO GET RID OF CENTER TAG: STYLE WITH CSS INSTEAD -->
+    <center>
+        <button type="submit" id="submit_department" class="btn btn-primary">Add Department</button>
+        <button type="reset" value="reset" class="btn btn-primary">Clear</button><p></p>    <p></p>
+    </center>
+
+<!--END MAIN DIV AND FORM-->
+ <!-- REMOVE EXTRA HEADER TAG: USE CSS INSTEAD TO INCLUDE SPACING -->
+ <h1></h1>
+
   </div>
-</form>
+</form> 
+
+<!--END .container jumbotron mt-3 card card-body-->
+    </div>
+  </div>
+</div>
 {% endblock %}
+
