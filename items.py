@@ -155,7 +155,7 @@ async def item_list(request, where_name=None, where_value=None):
 #DELETE ITEM
 async def delete_item(request, item_id):
     ''' Deletes a Equipment Item & redirects to item_list page '''
-    _, session_data = request.app['session'].get_session(request, True)
+    _, session_data = request.app['session'].get_session(request)
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute("""
@@ -185,7 +185,7 @@ async def view_item_post(request):
         return await modify_item(request, data)
 
 async def modify_item(request, data):
-    _, session_data = request.app['session'].get_session(request, True)
+    _, session_data = request.app['session'].get_session(request)
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
