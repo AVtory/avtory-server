@@ -198,15 +198,11 @@ async def modify_item(request, data):
                 Description = %s,
                 Model = %s,
                 Serial = %s
-                Check_Out = %s,
-                Check_In = %s
-                WHERE item_id=%s""",
+                WHERE Item_ID=%s""",
                 (data['item_name'],
                  data['item_descp'],
                  data['item_model'],
                  data['item_serial'],
-                 data['check_out'],
-                 data['check_in'],
                  data['Item_ID']))
             await conn.commit()
 
