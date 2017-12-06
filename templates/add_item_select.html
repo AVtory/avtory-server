@@ -8,7 +8,6 @@
 <div class="container">
  <div class="jumbotron mt-3">
   <div class="card card-body">
-
 <form action="add_item" method="post">
   {% for k, v in data.items() %}
   <input type="hidden" name="{{ k }}" value="{{ v|e }}" />
