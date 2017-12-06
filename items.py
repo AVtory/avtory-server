@@ -91,12 +91,8 @@ async def add_item_post(request):
     return await item_list(request)
 
 
-async def view_item(request):
+async def view_item(request, item_id):
     _, session_data = request.app['session'].get_session(request)
-    data = await request.post()
-    data = {k: v
-            for k, v
-            in data.items()}
 
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
@@ -114,9 +110,14 @@ async def view_item(request):
                 LEFT JOIN DEPARTMENT
                 ON LOCATION.department_id=DEPARTMENT.department_id
                 WHERE Item_ID=%s
-                ''', (data['Item_ID']))
-            item = {key: value for key, value in zip((col[0] for col in cur.description), await cur.fetchone())}
-    return web.Response(text=request.app['env'].get_template('view_item.html').render(admin=session_data['admin'], item=item), content_type="text/html")
+                ''', (item_id))
+            item = {key: value for key, value in
+                    zip((col[0] for col in cur.description),
+                        await cur.fetchone())}
+    return web.Response(text=request.app['env']
+                        .get_template('view_item.html')
+                        .render(admin=session_data['admin'], item=item),
+                        content_type="text/html")
 
 
 async def item_list(request, where_name=None, where_value=None):
@@ -164,18 +165,22 @@ async def delete_item(request, item_id):
             raise web.HTTPFound('/item_list')
 
 '''WAITING FOR USER ACTION '''
-async def view_item_mod(request):
+async def view_item_post(request):
+    _, session_data = request.app['session'].get_session(request)
     '''
     Edit/Update an Item from the view_item page
     '''
     data = await request.post()
+    print(data)
     action = data['action']
 
     # Call appropriate Delete, Show, or Modify functions
     if action == 'delete':
-        return await delete_item(request, data['item_id']) # Pass in the request and item_ID --> Not good
+        # Pass in the request and item_ID --> Not good
+        return await delete_item(request, data['Item_ID'])
     elif action == 'show':
-        return await view_item(request, data['item_id']) # View item based on ID --> Should be good
+        # View item based on ID --> Should be good
+        return await view_item(request, data['Item_ID'])
     elif action == 'modify':
         return await modify_item(request, data)
 
@@ -197,23 +202,3 @@ async def modify_item(request, data):
                  data['item_serial']))
             await conn.commit()
     raise web.HTTPFound('/item_list')
-
-if __name__ == "__main__":
-    parser = ArgumentParser("Add an administrator to the database")
-    parser.add_argument('-u', '--item_name', required=True)
-    parser.add_argument('-l', '--item_descp', required=True)
-    parser.add_argument('-f', '--item_model', required=True)
-    parser.add_argument('-e', '--item_serial', required=True)
-
-    args = vars(parser.parse_args())
-    config = read_config()
-    loop = asyncio.get_event_loop()
-    pool = create_pool(config.items('mysql'))
-
-    try:
-        loop.run_until_complete(
-            insert_item(pool, args['Item_Name'], args['Item_Description'],
-                        args['Item_Model'], args['Item_Serial'], args['Check_Out'], args['Check_In']))
-    finally:
-        pool.close()
-
