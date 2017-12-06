@@ -114,9 +114,19 @@ async def view_item(request, item_id):
             item = {key: value for key, value in
                     zip((col[0] for col in cur.description),
                         await cur.fetchone())}
+            await cur.execute(
+                '''SELECT *
+                FROM LOG
+                WHERE Item_ID=%s''',
+                item_id)
+            log = {key: value for key, value
+                   in zip((col[0] for col in cur.description),
+                          await cur.fetchall())}
     return web.Response(text=request.app['env']
                         .get_template('view_item.html')
-                        .render(admin=session_data['admin'], item=item),
+                        .render(admin=session_data['admin'],
+                                item=item,
+                                log=log),
                         content_type="text/html")
 
 
