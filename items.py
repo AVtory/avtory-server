@@ -114,9 +114,18 @@ async def view_item(request, item_id):
             item = {key: value for key, value in
                     zip((col[0] for col in cur.description),
                         await cur.fetchone())}
+
             await cur.execute(
-                '''SELECT *
+                '''SELECT Item_ID
+                FROM CHECKOUT
+                WHERE Item_ID=%s''', item_id)
+            action = 'Checkout' if cur.rowcount == 0 else 'Checkin'
+
+            await cur.execute(
+                '''SELECT Log_Date, Event, Comment, EMPLOYEE.Last_Name, EMPLOYEE.First_Name
                 FROM LOG
+                LEFT JOIN EMPLOYEE
+                ON EMPLOYEE.Employee_ID=LOG.Employee_ID
                 WHERE Item_ID=%s''',
                 item_id)
             log = {key: value for key, value
@@ -126,7 +135,8 @@ async def view_item(request, item_id):
                         .get_template('view_item.html')
                         .render(admin=session_data['admin'],
                                 item=item,
-                                log=log),
+                                log=log,
+                                action=action),
                         content_type="text/html")
 
 
@@ -195,6 +205,10 @@ async def view_item_post(request):
         return await view_item(request, data['Item_ID'])
     elif action == 'modify':
         return await modify_item(request, data)
+    elif action == 'Checkout':
+        pass
+    elif action == 'Checkin':
+        pass
 
 
 async def modify_item(request, data):
