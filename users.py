@@ -204,7 +204,8 @@ async def login_post(request):
     async with request.app['pool'].acquire() as conn:
         async with conn.cursor() as cur:
             await cur.execute(
-                """SELECT Password_Hash, Salt, Work_Factor, EMPLOYEE.Is_Admin
+                """SELECT Password_Hash, Salt, Work_Factor,
+                EMPLOYEE.Is_Admin, EMPLOYEE.Employee_ID
                 FROM USERS
                 JOIN EMPLOYEE ON USERS.user_id=EMPLOYEE.user_id
                 WHERE Username=%s""",
@@ -215,7 +216,7 @@ async def login_post(request):
                     .get_template('login.html')
                     .render(error_msg="Invalid username or password"),
                     content_type='text/html')
-            password_hash, salt, work_factor, is_admin = await cur.fetchone()
+            password_hash, salt, work_factor, is_admin, employee_id = await cur.fetchone()
 
     salt = salt.encode()
     password_hash = b64decode(password_hash)
@@ -223,6 +224,7 @@ async def login_post(request):
     if password_hash == hash_pw(password, salt, work_factor):
         session_id, session_data = request.app['session'].new_session(request)
         session_data['admin'] = bool(is_admin)
+        session_data['employee_id'] = employee_id
 
         response = web.Response(text='''<html><head>
         <meta http-equiv="refresh" content="0; url=/" />

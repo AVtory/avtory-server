@@ -5,6 +5,7 @@
 
 <!--START OF ITEM-->   
 <form action="view_item" method="post">
+  <input type="hidden" name="Item_ID" value="{{item.Item_ID}}" />
   <!--EDITABLE
       Item Name-->
   <div class="form-row">
@@ -37,7 +38,19 @@
 	    name="action" value="{{ action }}">{{ action }}</button>
     <button type="submit" class="btn btn-danger" name="action" value="delete">Delete Item</button>
   </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-12">
+      <label>{{action}} comment</label>
+      <input type="text" name="comment" class="form-control" />
+    </div>
+  </div>
 </form>
+
+{% if action == "Checkin" %}
+<p>Checked out to {{ checkout.Last_Name|e }}, {{ checkout.First_Name|e }}</p>
+<p>Due {{ checkout.Due_Date }}</p>
+{% endif %}
 
 <div class="jumbotron">Checkout log</div>
 <div class="table-respopnse">

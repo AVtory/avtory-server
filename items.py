@@ -116,27 +116,40 @@ async def view_item(request, item_id):
                         await cur.fetchone())}
 
             await cur.execute(
-                '''SELECT Item_ID
+                '''SELECT *
                 FROM CHECKOUT
+                JOIN EMPLOYEE
+                ON EMPLOYEE.Employee_ID=CHECKOUT.Employee_ID
                 WHERE Item_ID=%s''', item_id)
-            action = 'Checkout' if cur.rowcount == 0 else 'Checkin'
+            if cur.rowcount == 0:
+                action = "Checkout"
+                checkout = None
+            else:
+                action = "Checkin"
+                checkout = {key: value for key, value in
+                            zip((col[0] for col in cur.description),
+                                await cur.fetchone())}
 
             await cur.execute(
                 '''SELECT Log_Date, Event, Comment, EMPLOYEE.Last_Name, EMPLOYEE.First_Name
                 FROM LOG
-                LEFT JOIN EMPLOYEE
+                JOIN EMPLOYEE
                 ON EMPLOYEE.Employee_ID=LOG.Employee_ID
-                WHERE Item_ID=%s''',
+                WHERE Item_ID=%s
+                ORDER BY Log_Date DESC''',
                 item_id)
-            log = {key: value for key, value
-                   in zip((col[0] for col in cur.description),
-                          await cur.fetchall())}
+            log = [{key: value for key, value
+                    in zip((col[0] for col in cur.description),
+                           data)}
+                   for data in await cur.fetchall()]
+
     return web.Response(text=request.app['env']
                         .get_template('view_item.html')
                         .render(admin=session_data['admin'],
                                 item=item,
                                 log=log,
-                                action=action),
+                                action=action,
+                                checkout=checkout),
                         content_type="text/html")
 
 
@@ -206,9 +219,50 @@ async def view_item_post(request):
     elif action == 'modify':
         return await modify_item(request, data)
     elif action == 'Checkout':
-        pass
+        return await checkout(request, data)
     elif action == 'Checkin':
-        pass
+        return await checkin(request, data)
+
+
+async def checkout(request, data):
+    _, session_data = request.app['session'].get_session(request)
+
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                '''INSERT INTO LOG
+                (Log_Date, Event, Employee_ID, Item_ID, Comment)
+                VALUES
+                (NOW(), "checkout", %s, %s, %s)''',
+                (session_data['employee_id'], data['Item_ID'],
+                 data['comment']))
+            await cur.execute(
+                '''INSERT INTO CHECKOUT
+                (Item_ID, Employee_ID, Date_Checked_Out, Due_Date)
+                VALUES
+                (%s, %s, NOW(), NOW())''',
+                (data['Item_ID'], session_data['employee_id']))
+            await conn.commit()
+    return await view_item(request, data['Item_ID'])
+
+
+async def checkin(request, data):
+    _, session_data = request.app['session'].get_session(request)
+
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                '''INSERT INTO LOG
+                (Log_Date, Event, Employee_ID, Item_ID, Comment)
+                VALUES
+                (NOW(), "checkin", %s, %s, %s)''',
+                (session_data['employee_id'],
+                 data['Item_ID'],
+                 data['comment']))
+            await cur.execute('DELETE FROM CHECKOUT WHERE Item_ID=%s',
+                              data['Item_ID'])
+            await conn.commit()
+    return await view_item(request, data['Item_ID'])
 
 
 async def modify_item(request, data):
