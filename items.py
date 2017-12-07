@@ -240,8 +240,9 @@ async def checkout(request, data):
                 '''INSERT INTO CHECKOUT
                 (Item_ID, Employee_ID, Date_Checked_Out, Due_Date)
                 VALUES
-                (%s, %s, NOW(), NOW())''',
-                (data['Item_ID'], session_data['employee_id']))
+                (%s, %s, NOW(), NOW() + INTERVAL %s DAY)''',
+                (data['Item_ID'], session_data['employee_id'],
+                 data['duration']))
             await conn.commit()
     return await view_item(request, data['Item_ID'])
 

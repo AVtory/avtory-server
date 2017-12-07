@@ -45,6 +45,15 @@
       <input type="text" name="comment" class="form-control" />
     </div>
   </div>
+
+  {% if action == "Checkout" %}
+  <div class="form-row">
+    <div class="form-group">
+      <label>Check out for how many days?</label>
+      <input type="text" name="duration" class="form-control" value="28"/>
+    </div>
+  </div>
+  {% endif %}
 </form>
 
 {% if action == "Checkin" %}
