@@ -143,13 +143,17 @@ async def view_item(request, item_id):
                            data)}
                    for data in await cur.fetchall()]
 
+    link = '{}view_item?Item_ID={}'.format(request.app['config']['avtory']
+                                           ['website'], item_id)
+
     return web.Response(text=request.app['env']
                         .get_template('view_item.html')
                         .render(admin=session_data['admin'],
                                 item=item,
                                 log=log,
                                 action=action,
-                                checkout=checkout),
+                                checkout=checkout,
+                                link=link),
                         content_type="text/html")
 
 
@@ -264,6 +268,10 @@ async def checkin(request, data):
                               data['Item_ID'])
             await conn.commit()
     return await view_item(request, data['Item_ID'])
+
+
+async def view_item_get(request):
+    return await view_item(request, request.query['Item_ID'])
 
 
 async def modify_item(request, data):

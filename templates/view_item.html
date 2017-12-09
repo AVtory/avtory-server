@@ -61,7 +61,13 @@
 <p>Due {{ checkout.Due_Date }}</p>
 {% endif %}
 
-<div class="jumbotron">Checkout log</div>
+<div id="qrcode" />
+<script src="js/qrcode.js"></script>
+<script type="text/javascript">
+  new QRCode(document.getElementById("qrcode"), "{{ link }}");
+</script>
+
+<div class="jumbotron"><h4>Checkout log</h4></div>
 <div class="table-respopnse">
   <div class="table-responseive">
     <table class="table table-striped">
