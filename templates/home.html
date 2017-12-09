@@ -54,40 +54,48 @@
     <h4>Recent Equipment Added
       <a href=""><img src="images/setting.png" width="25" height="auto"></a>
     </h4>
-       <thead>
-	   <tr>
-	      <th>Date Added</th>
-	      <th>Time</th>
-	      <th>Item</th>
-	   </tr>
-       </thead>
-       <tbody>
-	   <tr>
-              <td>11-16-17</td>
-              <td>12:00pm</td>
-              <td>iPad</td>
-   	  </tr>
-       </tbody>
-  </table>
-  <!--RECENTLY CHECKED IN EQUIPMENT-->
-  <table class="table table-striped">
-     <h4>Recent Checked In
-        <a href=""><img src="images/setting.png" width="25" height="auto"></a>
-    </h4>
     <thead>
       <tr>
-        <th>Date Added</th>
-        <th>Time</th>
-        <th>Item</th>
+	<th>Date</th>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Type</th>
       </tr>
     </thead>
     <tbody>
+      {% for item in items %}
       <tr>
-        <td>11-15-17</td>
-        <td>12:00pm</td>
-        <td>Speaker</td>
+	<td>{{ item.Date_Added }}</td>
+	<td>{{ item.Item_Name|e }}</td>
+	<td>{{ item.Description|e }}</td>
+	<td>{{ item.Item_Type_Name|e }}</td>
       </tr>
-     </tbody>
+      {% endfor %}
+    </tbody>
+  </table>
+  <!--RECENTLY CHECKED IN EQUIPMENT-->
+  <table class="table table-striped">
+    <h4>Recent Checked In
+      <a href=""><img src="images/setting.png" width="25" height="auto"></a>
+    </h4>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Date</th>
+	<th>By</th>
+	<th>Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in checkin %}
+      <tr>
+	<td>{{ item.Item_Name|e }}</td>
+	<td>{{ item.Log_Date }}</td>
+	<td>{{ item.Last_Name|e }}, {{ item.First_Name|e }}</td>
+	<td>{{ item.Comment|e }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
   <!--RECENTLY CHECKED OUT EQUIPMENT-->
   <table class="table table-striped">
@@ -98,17 +106,23 @@
     </h4>
     <thead>
       <tr>
-        <th>Date Added</th>
-        <th>Time</th>
         <th>Item</th>
+        <th>Date</th>
+	<th>Due</th>
+	<th>By</th>
+	<th>Comment</th>
       </tr>
     </thead>
     <tbody>
+      {% for item in checkout %}
       <tr>
-        <td>11-10-17</td>
-        <td>2:00pm</td>
-        <td>Mircophone</td>
+	<td>{{ item.Item_Name|e }}</td>
+	<td>{{ item.Date_Checked_Out }}</td>
+	<td>{{ item.Due_Date }}</td>
+	<td>{{ item.Last_Name|e }}, {{ item.First_Name|e }}</td>
+	<td>{{ item.Comment|e }}</td>
       </tr>
+      {% endfor %}
     </tbody>
   </table>
 </div><!--END RECENT DATA-->

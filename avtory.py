@@ -21,10 +21,56 @@ from location import (location_list, location_post, add_location_get,
 
 async def home(request):
     _, session_data = request.app['session'].get_session(request)
+    async with request.app['pool'].acquire() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute(
+                '''SELECT Item_Name, Description, Date_Added, ITEM_TYPE.Item_Type_Name
+                FROM ITEM
+                JOIN ITEM_TYPE ON ITEM.Item_Type_ID = ITEM_TYPE.Item_Type_ID
+                ORDER BY Item_ID DESC LIMIT 10''')
+            items = [{key: value for key, value in
+                      zip((col[0] for col in cur.description),
+                          data)}
+                     for data in await cur.fetchall()]
+
+            await cur.execute(
+                '''SELECT
+                Comment, ITEM.Item_Name,
+                CHECKOUT.Due_Date, CHECKOUT.Date_Checked_Out,
+                EMPLOYEE.Last_Name, EMPLOYEE.First_Name
+                FROM LOG
+                JOIN ITEM ON LOG.Item_ID = ITEM.Item_ID
+                JOIN EMPLOYEE ON LOG.Employee_ID = EMPLOYEE.Employee_ID
+                JOIN CHECKOUT ON LOG.Item_ID = CHECKOUT.Item_ID
+                    AND LOG.Log_Date = CHECKOUT.Date_Checked_Out
+                WHERE LOG.Event = "checkout"
+                ORDER BY LOG.Log_ID DESC LIMIT 10''')
+            checkout = [{key: value for key, value in
+                         zip((col[0] for col in cur.description),
+                             data)}
+                        for data in await cur.fetchall()]
+
+            await cur.execute(
+                '''SELECT
+                Log_Date, Comment, ITEM.Item_Name,
+                EMPLOYEE.Last_Name, EMPLOYEE.First_Name
+                FROM LOG
+                JOIN ITEM ON LOG.Item_ID = ITEM.Item_ID
+                JOIN EMPLOYEE ON EMPLOYEE.Employee_ID = LOG.Employee_ID
+                WHERE LOG.Event = "checkin"
+                ORDER BY LOG.Log_ID DESC LIMIT 10''')
+            checkin = [{key: value for key, value in
+                        zip((col[0] for col in cur.description),
+                            data)}
+                       for data in await cur.fetchall()]
+
     return web.Response(text=request
                         .app['env']
                         .get_template('home.html')
-                        .render(admin=session_data['admin']),
+                        .render(admin=session_data['admin'],
+                                checkout=checkout,
+                                checkin=checkin,
+                                items=items),
                         content_type="text/html")
 
 
