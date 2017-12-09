@@ -76,8 +76,10 @@
 </div><!--END LOGOUT CONTAINER-->
 <!--BEGIN MAIN CONTENT-->
 <div class="container" style="margin-top:100px;margin-bottom:100px;">
-  {% if error_msg %}<div>{{ error_msg }}</div>{% endif %}
-  {% block content %}{% endblock %}
+  <div class="jumbotron">
+    {% if error_msg %}<div>{{ error_msg }}</div>{% endif %}
+    {% block content %}{% endblock %}
+  </div>
 </div>
 <!--START BOTTOM NAVBAR-->
 <nav class="navbar fixed-bottom navbar-expand navbar-dark bg-dark">
