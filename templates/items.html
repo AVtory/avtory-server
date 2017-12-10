@@ -2,12 +2,19 @@
 {% block title %}Equipment List{% endblock %}
 {% block content %}
 
-<div class="jumbotron">
-	<h1>Inventory of Equipment</h1>
-	<div class="body_container">
+<div class="body_container">
+	<div class="jumbotron">
+		<h1>Inventory of Equipment</h1>
 		<center>
 	     <form action="/add_item" method="post">
-	     <button type="submit" class="btn btn-primary">Add Item</button>
+	     <button type="button" class="btn btn-primary">
+	       <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>Add Item
+	   </button>
+	   <!--
+	   <button type="button" class="btn btn-default btn-lg">  
+	   	<span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+	   </button>-->
+
 	    </form>
 	</center>
 </div><!--./body_container-->
@@ -58,20 +65,5 @@
      </table>	
     </div>
 </form>
-
-
 {% endblock %}
-<!--
-	  	<td>
-	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Edit</button>
-	    </td>
-
-	     <td>
-	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Check Out</button>
-	    </td>
-
-	    <td>
-	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Check In</button>
-	    </td>	
-	  -->
 
