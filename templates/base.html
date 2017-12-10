@@ -1,126 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    {% block head %}
-    <title>AVTory - {% block title %}{% endblock %}</title>
-    {% endblock %}
-    <link rel="icon" href="images/AV.png" />
-    <!-- BOOTSTRAP -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/avtory-style.css" />
-  </head>            
-  <!-- START OF BODY -->
-  <body>
-    <header>
-    <!--TOP NAV BAR-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  {% block head %}
+  <title>AVTory - {% block title %}{% endblock %}</title>
+  {% endblock %}
+  <!--LOGO-->
+  <link rel="icon" href="images/AV.png" />
+  <!--BOOTSTRAP CSS-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/avtory-style.css" />
+</head>            
+<!-- START OF BODY -->
+<body>
+  <header><!--START HEADER FOR EVERY PAGE-->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <!--LOGO-->
       <a class="navbar-brand" href="/">
-        <img src="/images/logo/AV.png" width="50" height="auto"/>
+        <img src="/images/AV.png" width="50" height="auto"/>
       </a>
       <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" 
-                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-        </button>
-
-
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-          <!-- LINKS -->
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="departments">Departments</a></li>
-            <li class="nav-item"><a class="nav-link" href="locations">Locations</a></li>
-            <li class="nav-item"><a class="nav-link" href="categories">Categories</a></li>
-            <li class="nav-item"><a class="nav-link" href="item_types">Item Types</a></li>
-            <li class="nav-item"><a class="nav-link" href="item_list">Equipment</a></li>
-            {% if admin %}
-              <li class="nav-item"><a class="nav-link" href="users">⚙</a></li>
-            {% endif %}
-            <!-- LOGOUT MODAL -->
-            <li>
-              <a href="#" data-toggle="modal" data-target="#logoutModal"> 
-                <button type="button" class="btn btn-outline-success">Logout
-                </a>
-              </button>
-            </li>
-          </ul>               
-          <!--TOP NAV BAR--> 
-        </div>
-      </nav>
-    </header>  
-    <!--END OF TOP NAV BAR-->
-
-
-<!-- BEGIN MODAL CONTAINER -->
-<div class="container">  
-</div><!-- /.container -->
-
-<!-- Small modal -->
-<div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!--START NAV BAR-->
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="nav navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active"><a class="nav-link" href="/">Home 🏠</a></li>
+          <li class="nav-item active"><a class="nav-link" href="departments">Departments 🏢</a></li>
+          <li class="nav-item active"><a class="nav-link" href="locations">Locations</a></li>
+          <li class="nav-item active"><a class="nav-link" href="categories">Categories</a></li>
+          <li class="nav-item active"><a class="nav-link" href="item_types">Item Types</a></li>
+          <li class="nav-item active"><a class="nav-link" href="item_list">Equipment</a></li>
+          <!--ADMIN FUNCTIONALITY ONLY-->
+          {% if admin %}
+            <li class="nav-item active"><a class="nav-link" href="users">⚙</a></li>
+          {% endif %}
+        </ul>
+        <a href="#" data-toggle="modal" data-target="#logoutModal"> 
+          <button type="button" class="btn btn-outline-success">Logout</button>
+        </a>
+      </div>
+    </nav>
+  </header>
+<!--LOGOUT MODAL -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
+      <!--LOGOUT HEADER-->
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-        <h4>Log Out <i class="fa fa-lock"></i></h4>
+        <h4>Log Out<i class="fa fa-lock"></i></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span class="pull-left" aria-hidden="true">x</span>
+        </button>
       </div>
+      <!--LOGOUT BODY-->
       <div class="modal-body">
-        <p><i class="fa fa-question-circle"></i> Are you sure you want to log-off? <br /></p>
+        <p class="logout_message">
+          <i class="fa fa-question-circle"></i>Are you sure you want to logout? <br />
+        </p>
+        <!--LOGOUT BUTTON-->
         <div class="actionsBtns">
-            <form action="/logout" method="post">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <a class="nav-link" href="logout">Logout </a>
-                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </form>
+          <form action="/logout" method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <!--LOGOUT-->
+            <button type="button" class="btn btn-danger">
+              <a id="logout_link" class="link" href="logout">Logout</a>
+            </button>
+            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+            <!--<button class="btn btn-default" data-dismiss="modal">Cancel</button>-->
+          </form>
         </div>
-      </div>
+      </div><!--END LOGOUT BODY-->
     </div>
   </div>
-</div>
-<!-- END MODAL CONTAINER -->
-
-  <!-- main content -->
-  <div class="container">
-    <div class="jumbotron">
-      {% if error_msg %}
-    <div>
-      {{ error_msg }}
-    </div>
+</div><!--END LOGOUT CONTAINER-->
+<!--BEGIN MAIN CONTENT-->
+<div class="container">
+  <div class="jumbotron">
+    {% if error_msg %}
+      <div>
+        {{ error_msg }}
+      </div>
     {% endif %}
     {% block content %}
     {% endblock %}
-    </div>
-    <!-- End Main Content -->
-
-    <!--BOTTOM NAV BAR-->
-    <nav class="navbar fixed-bottom navbar-expand navbar-dark bg-dark">
-      <!--BOTTOM DROP UP-->
-      <li class="nav-item dropup" style="list-style-type:none" >
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false">
-          <img src="/images/nav/arrowuppWhite.png" width="25" height="auto">
-        </a>
-
-        <div class="dropdown-menu" aria-labelledby="dropdown10">
-      	  <a class="dropdown-item" href="/">Home</a>
-      	  <a class="dropdown-item" href="departments">Departments</a>
-      	  <a class="dropdown-item" href="locations">Locations</a>
-      	  <a class="dropdown-item" href="categories">Categories</a>
-      	  <a class="dropdown-item" href="item_types">Item Types</a>
-      	  <a class="dropdown-item" href="item_list">Equipment</a>
-      	  {% if admin %}
-      	  <a class="dropdown-item" href="users">⚙️</a>
-	        {% endif %}
-	     </div>
-      </li>
-    </nav>
-  </nav>  
-  <!--END NAV-->
-  
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-  </body>
+  </div>
+<!--START BOTTOM NAVBAR-->
+<nav class="navbar fixed-bottom navbar-expand navbar-dark bg-dark">
+  <!--BOTTOM DROP UP MENU-->
+  <li class="nav-item dropup" style="list-style-type:none" >
+    <a class="nav-link dropdown-toggle" href="#" id="dropdown10" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false">
+      <img src="/images/nav/arrowuppWhite.png" width="25" height="auto">
+    </a>
+    <!--PAGE REDIRECTION-->
+    <div class="dropdown-menu" aria-labelledby="dropdown10">
+      <a class="dropdown-item" href="/">Home 🏠</a>
+      <a class="dropdown-item" href="departments">Departments 🏢</a>
+      <a class="dropdown-item" href="locations">Locations</a>
+      <a class="dropdown-item" href="categories">Categories</a>
+      <a class="dropdown-item" href="item_types">Item Types</a>
+      <a class="dropdown-item" href="item_list">Equipment</a>
+      {% if admin %}
+      <a class="dropdown-item" href="users">⚙️</a>
+	    {% endif %}
+	  </div>
+  </li>
+</nav><!--END BOTTOM NAVBAR-->
+<!--JAVASCRIPT BOOTSTRAP-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+<!--END BODY AND PAGE-->
+</body>
 </html>
