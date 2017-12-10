@@ -4,16 +4,15 @@
 
 <!--BEGIN BODY-->
 <div class="body_container">
-  <center> <!--NEED TO STYLE WITH CSS-->
-    <img class="center-block" src="/images/AV.png" align="center-block"></p>
-    <h1> Links</h1>
-  </center>
+  <p>
+    <img class="mx-auto d-block" src="/images/AV.png">
+  </p>
+  <h1>Links</h1>
   <!--START TOP CONTAINER FOR LINKS-->  
   <div class="form-row">
     <div class="table-responsive">
       <!--BEGIN TABLE FOR BUTTONS-->
       <table class="table table-striped">
-        <center> <!--NEED TO STYLE TABLE WITH CSS-->
         <!--FIRST ROW OF BUTTONS-->
         <tr align="center">
           <td>
@@ -42,24 +41,22 @@
             <a class="btn btn-primary" href="item_list" role="button">Check In/Out Process</a>
           </td>
         </tr>
-      </center> <!--END UNNECESSARY CENTER TAG-->
     </table><!--END BUTTON TABLE-->
   </div><!--END .form-row-->
 </div><!--END .table-responsive-->
-<p></p> <!--NEED TO REMOVE UNNECSSARY P TAGS FOR SPACING: USE CSS!!!!-->
 <!--BEGIN RECENT DATA CONTAINER-->
-<div class="table-responsive">
+<div class="table-responsive" style="margin-top:50px">
   <!--RECENTLY ADDED EQUIPMENT-->
   <table class="table table-striped">
-    <h4>Recent Equipment Added
+    <h4>Recently Added Equipment 
       <a href=""><img src="images/setting.png" width="25" height="auto"></a>
     </h4>
     <thead>
       <tr>
-	<th>Date</th>
-	<th>Name</th>
-	<th>Description</th>
-	<th>Type</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Type</th>
       </tr>
     </thead>
     <tbody>
@@ -75,31 +72,31 @@
   </table>
   <!--RECENTLY CHECKED IN EQUIPMENT-->
   <table class="table table-striped">
-    <h4>Recent Checked In
+    <h4 style="margin-top:50px">Recently Checked In
       <a href=""><img src="images/setting.png" width="25" height="auto"></a>
     </h4>
     <thead>
       <tr>
         <th>Item</th>
         <th>Date</th>
-	<th>By</th>
-	<th>Comment</th>
+	      <th>By</th>
+	      <th>Comment</th>
       </tr>
     </thead>
     <tbody>
       {% for item in checkin %}
       <tr>
-	<td>{{ item.Item_Name|e }}</td>
-	<td>{{ item.Log_Date }}</td>
-	<td>{{ item.Last_Name|e }}, {{ item.First_Name|e }}</td>
-	<td>{{ item.Comment|e }}</td>
+        <td>{{ item.Item_Name|e }}</td>
+        <td>{{ item.Log_Date }}</td>
+        <td>{{ item.Last_Name|e }}, {{ item.First_Name|e }}</td>
+        <td>{{ item.Comment|e }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
   <!--RECENTLY CHECKED OUT EQUIPMENT-->
   <table class="table table-striped">
-    <h4>Recent Checked Out
+    <h4 style="margin-top:50px">Recently Checked Out
       <a href="">
         <img src="images/setting.png" width="25" height="auto">
       </a>
@@ -108,25 +105,24 @@
       <tr>
         <th>Item</th>
         <th>Date</th>
-	<th>Due</th>
-	<th>By</th>
-	<th>Comment</th>
+	      <th>Due</th>
+	      <th>By</th>
+	      <th>Comment</th>
       </tr>
     </thead>
     <tbody>
       {% for item in checkout %}
       <tr>
-	<td>{{ item.Item_Name|e }}</td>
-	<td>{{ item.Date_Checked_Out }}</td>
-	<td>{{ item.Due_Date }}</td>
-	<td>{{ item.Last_Name|e }}, {{ item.First_Name|e }}</td>
-	<td>{{ item.Comment|e }}</td>
+        <td>{{ item.Item_Name|e }}</td>
+        <td>{{ item.Date_Checked_Out }}</td>
+        <td>{{ item.Due_Date }}</td>
+        <td>{{ item.Last_Name|e }}, {{ item.First_Name|e }}</td>
+        <td>{{ item.Comment|e }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 </div><!--END RECENT DATA-->
-
 <!--AVtory ABOUT US CONTAINER-->
 <div class="jumbotron mt-3">
   <h4 align="center">About AVtory</h4>
@@ -134,21 +130,21 @@
     <!--BULLET POINT LIST OF INFO-->
     <ul class="list-group">
       <li>AVtory is a web application that has helps manage equipment and inventory.</li>
-      <li>Purpose:</li>
+      <li><dt>Purpose:</dt></li>
       <ul>
         <li>Improve efficiency by providing employees with a secure and user-friendly interface to interact with their equipment stored in a database.</li>
       </ul>
-      <li>Problem Statement:</li> 
+      <li><dt>Problem Statement:</dt></li> 
       <ul>
         <li>Many organizations manage their inventory through custom spreadsheets or text documents, which are error prone and time consuming.</li>
       </ul>
-      <li>Alternative Solutions:</li>
+      <li><dt>Alternative Solutions:</dt></li>
       <ol>
         <li>Commercial solutions to this problem exist, but they are expensive.</li>
         <li>Open source solutions also exist, but most of them lack essential features, such as the ability to check out equipment.</li>
       </ol>
       <li>Therefore, we decided to create our own system to manage inventory.</li>
-      <li>AVtory Contributors:</li>
+      <li><dt>AVtory Contributors:</dt></li>
       <ol>
           <li>Denise Nguyen</li>
           <li>Jason Sneddon</li>
