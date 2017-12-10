@@ -10,9 +10,9 @@
   {% endblock %}
   <!--LOGO-->
   <link rel="icon" href="images/AV.png" />
-  <!--BOOTSTRAP CSS-->
+  <!--CSS-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="css/avtory-style.css" />
+  <link rel="stylesheet" type="text/css" href="css/avtory-style.css" />
 </head>            
 <!-- START OF BODY -->
 <body>
@@ -47,27 +47,31 @@
     </nav>
   </header>
 <!--LOGOUT MODAL -->
-<div class="modal" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <!--LOGOUT HEADER-->
       <div class="modal-header">
+        <h4>Log Out<i class="fa fa-lock"></i></h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"> x </span>
+          <span class="pull-left" aria-hidden="true">x</span>
         </button>
-        <h4>Log Out <i class="fa fa-lock"></i></h4>
       </div>
       <!--LOGOUT BODY-->
       <div class="modal-body">
-        <p>
-          <i class="fa fa-question-circle"></i> Are you sure you want to logout? <br/>
+        <p class="logout_message">
+          <i class="fa fa-question-circle"></i>Are you sure you want to logout? <br />
         </p>
         <!--LOGOUT BUTTON-->
         <div class="actionsBtns">
           <form action="/logout" method="post">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <a class="nav-link" href="logout">Logout </a>
-            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <!--LOGOUT-->
+            <button type="button" class="btn btn-danger">
+              <a id="logout_link" class="link" href="logout">Logout</a>
+            </button>
+            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+            <!--<button class="btn btn-default" data-dismiss="modal">Cancel</button>-->
           </form>
         </div>
       </div><!--END LOGOUT BODY-->
