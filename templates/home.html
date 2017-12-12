@@ -8,6 +8,22 @@
     <img class="mx-auto d-block" src="/images/AV.png">
   </p>
   <h1>Links</h1>
+  <!-- Example split danger button -->
+<div class="btn-group">
+  <button type="button" class="btn btn-outline-success"><a href="add_department">Department</a></button>
+  <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">Separated link</a>
+  </div>
+</div>
+
+
   <!--START TOP CONTAINER FOR LINKS-->  
   <div class="form-row">
     <div class="table-responsive">
@@ -44,10 +60,11 @@
     </table><!--END BUTTON TABLE-->
   </div><!--END .form-row-->
 </div><!--END .table-responsive-->
+
 <!--BEGIN RECENT DATA CONTAINER-->
 <div class="table-responsive" style="margin-top:50px">
   <!--RECENTLY ADDED EQUIPMENT-->
-  <table class="table table-striped">
+  <table class="table table-sm table-striped">
     <h4>Recently Added Equipment 
       <a href=""><img src="images/setting.png" width="25" height="auto"></a>
     </h4>
@@ -70,8 +87,11 @@
       {% endfor %}
     </tbody>
   </table>
-  <!--RECENTLY CHECKED IN EQUIPMENT-->
-  <table class="table table-striped">
+</div><!--.table-responsive-->
+
+<!--RECENTLY CHECKED IN EQUIPMENT-->
+<div class="table-responsive">
+  <table class="table table-sm table-striped">
     <h4 style="margin-top:50px">Recently Checked In
       <a href=""><img src="images/setting.png" width="25" height="auto"></a>
     </h4>
@@ -94,8 +114,11 @@
       {% endfor %}
     </tbody>
   </table>
-  <!--RECENTLY CHECKED OUT EQUIPMENT-->
-  <table class="table table-striped">
+</div><!--.table-responsive-->
+
+<!--RECENTLY CHECKED OUT EQUIPMENT-->
+<div class="table-responsive">
+  <table class="table table-sm table-striped">
     <h4 style="margin-top:50px">Recently Checked Out
       <a href="">
         <img src="images/setting.png" width="25" height="auto">
@@ -122,6 +145,7 @@
       {% endfor %}
     </tbody>
   </table>
+</div><!--.table-responsive-->
 </div><!--END RECENT DATA-->
 <!--AVtory ABOUT US CONTAINER-->
 <div class="jumbotron mt-3">
