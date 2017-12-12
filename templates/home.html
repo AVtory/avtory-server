@@ -8,21 +8,6 @@
     <img class="mx-auto d-block" src="/images/AV.png">
   </p>
   <h1>Links</h1>
-  <!-- Example split danger button -->
-<div class="btn-group">
-  <button type="button" class="btn btn-outline-success"><a href="add_department">Department</a></button>
-  <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <div class="dropdown-menu">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="#">Separated link</a>
-  </div>
-</div>
-
 
   <!--START TOP CONTAINER FOR LINKS-->  
   <div class="form-row">
@@ -32,29 +17,52 @@
         <!--FIRST ROW OF BUTTONS-->
         <tr align="center">
           <td>
-            <form action="/add_item" method="post">
-              <button type="submit" class="btn btn-primary">Add Item</button>
-            </form>
+             <!-- Item Drop down button -->
+            <div class="home_buttons">
+            <div class="btn-group">
+              <button type="button" class="btn btn-outline-success"><a href="item_list">Equipment Inventory</a></button>
+              <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <div class="dropdown-menu">
+                  <a class="dropdown-item" href="item_list">View Equipment Inventory</a>
+                  <a class="dropdown-item" href="add_item">Add Item</a>
+                </div>
+              </div>
+            </div><!--./end of Item Button-->
           </td>
           <td>
-            <a href="add_department" class="btn btn-primary" role="button">Add Department</a>
+            {% if admin %}
+              <!-- Department Drop down button -->
+              <div class="home_buttons">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-success"><a href="departments">Department</a></button>
+                <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="add_department">Add Department</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="add_item">View Equipment Inventory</a>
+                    <a class="dropdown-item" href="add_item">Add Item</a>
+                  </div>
+                </div>
+              </div><!--./end of Department Button-->
+              {% endif %}           
           </td>
           <td> 
-            <a href="add_location" class="btn btn-primary" role="button">Add Location</a>
-          </td>
-          <td>
-            <a href="add_category" class="btn btn-primary" role="button">Add Category</a>
-          </td>
-        </tr>
-        <!--SECOND ROW OF BUTTONS-->
-        <tr align="center">
-          <!--Buffer Cell-->
-          <td> </td> 
-          <td>
-            <a href="add_item_type" class="btn btn-primary" role="button">Add Item Type</a> 
-          </td>
-          <td>
-            <a class="btn btn-primary" href="item_list" role="button">Check In/Out Process</a>
+          <!-- Category Drop down button -->
+            <div class="home_buttons">
+            <div class="btn-group">
+              <button type="button" class="btn btn-outline-success"><a href="categories">Category</a></button>
+              <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <div class="dropdown-menu">
+                  <a class="dropdown-item" href="add_category">Add Category</a>
+                </div>
+              </div>
+            </div><!--./end of Category Button-->          
           </td>
         </tr>
     </table><!--END BUTTON TABLE-->
@@ -66,7 +74,7 @@
   <!--RECENTLY ADDED EQUIPMENT-->
   <table class="table table-sm table-striped">
     <h4>Recently Added Equipment 
-      <a href=""><img src="images/setting.png" width="25" height="auto"></a>
+      <a href="item_list"><img src="images/setting.png" width="25" height="auto"></a>
     </h4>
     <thead>
       <tr>
@@ -93,7 +101,7 @@
 <div class="table-responsive">
   <table class="table table-sm table-striped">
     <h4 style="margin-top:50px">Recently Checked In
-      <a href=""><img src="images/setting.png" width="25" height="auto"></a>
+      <a href="item_list"><img src="images/setting.png" width="25" height="auto"></a>
     </h4>
     <thead>
       <tr>
@@ -114,13 +122,12 @@
       {% endfor %}
     </tbody>
   </table>
-</div><!--.table-responsive-->
-
+</div><!--.table-responsive--> 
 <!--RECENTLY CHECKED OUT EQUIPMENT-->
 <div class="table-responsive">
   <table class="table table-sm table-striped">
     <h4 style="margin-top:50px">Recently Checked Out
-      <a href="">
+      <a href="item_list">
         <img src="images/setting.png" width="25" height="auto">
       </a>
     </h4>
@@ -147,6 +154,7 @@
   </table>
 </div><!--.table-responsive-->
 </div><!--END RECENT DATA-->
+
 <!--AVtory ABOUT US CONTAINER-->
 <div class="jumbotron mt-3">
   <h4 align="center">About AVtory</h4>
