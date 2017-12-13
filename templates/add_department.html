@@ -3,7 +3,7 @@
 {% block content %}
 
 <!-- NEW MODAL -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- JavaScript to get text from input-->
 <script type="text/javascript">
     $(document).ready(function() {
@@ -15,22 +15,21 @@
     });
 </script>
 
-
 <!--.container jumbotron mt-3 cad card-body-->
 <div class="container">
  <div class="jumbotron mt-3">
-  <div class="card card-body">
 
-  <form action="add_department" method="post">
-    <div class="form-group">
-      <input type="text" id="department_name" name="department" class="form-control" placeholder="Department Name" />
-      <button type="submit" id="submit_department" class="btn btn-primary">Add Department</button>
-
-    <!-- New Button 
-    <button type="button" id="submit_department" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Department</button>-->
-    </div>
-  </form>
-
-  </div>
+<div class="card card-inverse text-center" style="background-color: #343a40; border-color: #333; color:#FFFFFF;">
+  <div class="card-block">
+    <blockquote class="card-blockquote">
+      <h1 style="margin-top:25px">Add Department</h1>
+      <form action="add_department" method="post">
+        <input type="text" id="department_name" name="department" class="form-control" placeholder="Department Name" /><br/>
+        <button type="submit" id="submit_department" class="btn btn-success btn-sm">Add Department</button>
+        <!-- New Button 
+        <button type="button" id="submit_department" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Department</button>-->
+    </form>
+   </div>
+ </div>
 </div>
 {% endblock %}

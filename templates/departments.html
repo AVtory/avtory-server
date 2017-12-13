@@ -2,41 +2,49 @@
 {% block title %}Departments{% endblock %}
 {% block content %}
 {% if admin %}
-<div class="jumbotron text-center">
-  <h1>Adding a Department</h1>
-  <a href="add_department" class="btn btn-primary" role="button">Add Department</a>
-</div><!--./jumbotron-->
+<div class="card card-inverse text-center" style="background-color: #343a40; border-color: #333; color:#FFFFFF;">
+  <div class="card-block">
+    <blockquote class="card-blockquote">
+  		<h1 style="margin-top:25px">Departments</h1>
+  	<a href="add_department" class="btn btn-success btn-sm" role="button" align="center">Add Department</a>
+  </div>
+</div>
 {% endif %}
 
-<form action="departments" method="post">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-	<th>Department</th>
-	<th>Show Locations</th>
-	<th>Show Equipment</th>
-	{% if admin %}<th>Delete Department</th>{% endif %}
-      </tr>
-    </thead>
+<div class="table-responsive">
+  <table class="table table-sm table-striped">
+	<form action="departments" method="post">
+	    <thead>
+          <tr align="center">
+			<th>Department</th>
+			<th>Show Locations</th>
+			<th>Show Equipment</th>
+			{% if admin %}<th>Delete Department</th>{% endif %}
+	      </tr>
+	    </thead>
+	    <tbody>
+	      {% for department_id, department_name in departments.items() %}
+	      <tr>
+			<td>{{ department_name|e }}</td>
+			<td><button type="submit" class="btn btn-link"
+				    name="show_locations" value="{{ department_id }}">
+			    Show {{ department_name|e }} locations</button></td>
+			<td><button type="submit" class="btn btn-link"
+				    name="show_equipment" value="{{ department_id }}">
+			    Show {{ department_name|e }} equipment</button></td>
+			{% if admin %}
+			<td align="center">
+				<button type="submit" class="btn btn-danger"
+			    name="delete_department" value="{{ department_id }}">
+		    	Delete {{ department_name|e }}
+			</button>
+			</td>
+			{% endif %}
+	     	</tr>
+	      	{% endfor %}
+	    </tbody>
+	</form>	  
+</table><!--./table table-sm table-stripe-->
+</div><!--./table-responsive-->
 
-    <tbody>
-      {% for department_id, department_name in departments.items() %}
-      <tr>
-	<td>{{ department_name|e }}</td>
-	<td><button type="submit" class="btn btn-link"
-		    name="show_locations" value="{{ department_id }}">
-	    Show {{ department_name|e }} locations</button></td>
-	<td><button type="submit" class="btn btn-link"
-		    name="show_equipment" value="{{ department_id }}">
-	    Show {{ department_name|e }} equipment</button></td>
-	{% if admin %}
-	<td><button type="submit" class="btn btn-danger"
-		    name="delete_department" value="{{ department_id }}">
-	    Delete {{ department_name|e }}</button></td>
-	{% endif %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</form>
 {% endblock %}
