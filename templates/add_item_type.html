@@ -1,52 +1,29 @@
 {% extends "base.html" %}
 {% block title %}Add Category{% endblock %}
 {% block content %}
-
-
-
-<!--.container jumbotron mt-3 card card-body-->
+<!--.container cad card-body-->
 <div class="container">
- <div class="jumbotron mt-3">
-  <div class="card card-body">
+  <div class="card card-inverse text-center" style="background-color: #343a40; border-color: #333; color:#FFFFFF; padding: 25px;">
+    <div class="card-block">
+      <blockquote class="card-blockquote">
+        <h2 style="margin-top:20px">Add Item Type</h2>
 
-<!--add_item-->
-<h1>Add Item☁</h1>
-<form action="add_item_type" method="post">
-  <div class="form-group">
-    <select class="form-control" name="category_id">
-      {% for category_id, category_name in categories %}
-      <option value="{{ category_id }}">{{ category_name|e }}</option>
-      {% endfor %}
-    </select>
-    <input type="text" name="item_type" class="form-control" placeholder="Item Type Name" /><br/>
-    <center>
-      <button type="submit" class="btn btn-primary">Add Item Type</button>       
-      <button type="reset" value="reset" class="btn btn-primary">Clear</button><p></p>    <p></p>
-  <h1></h1>
-   <a class="btn btn-primary" href="item_types" role="button">View Item Types &raquo;</a>
-    <form action="/add_item" method="post">
-      <button type="submit" class="btn btn-primary">Add Item</button>
-    </form>
-
-
-
-
-
-    </center>
-
-  </div>
-</form>
-<!--add_item-->
-
-
-
-
-<!--.card card body-->
+        <!--add_item-->
+        <form action="add_item_type" method="post">
+          <div class="form-group">
+            <select class="form-control" name="category_id">
+              {% for category_id, category_name in categories %}
+              <option value="{{ category_id }}">{{ category_name|e }}</option>
+              {% endfor %}
+            </select>
+            <input type="text" name="item_type" class="form-control" placeholder="Item Type Name" /><br/>
+            <center>
+              <button type="submit" class="btn btn-success btn-sm">Add Item Type</button>       
+              <button type="reset" value="reset" class="btn btn-success btn-sm">Clear</button><p></p>    <p></p>
+        </form>
+     </div>
+   </div><!--.card-->
+<!--.container jumbotron mt-3 card card-body-->
 </div>
-
-<!--.container jumbotron mt-3-->
-  </div>
-</div>
-
 
 {% endblock %}
