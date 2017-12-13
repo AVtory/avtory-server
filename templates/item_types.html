@@ -1,22 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Item Types{% endblock %}
 {% block content %}
-<div class="container">
-  <div class="jumbotron mt-3">
-    <a href="add_item_type" class="btn btn-primary" role="button">Add Item Type</a>
-  </div>
+<div class="jumbotron text-center">
+  <h1>Adding an Item Type</h1>
+  <a href="add_item_type" class="btn btn-primary" role="button">Add Item Type</a>
 </div>
 
-<div class="container">
-  <div class="table-responsive">
-  <table class="table table-striped">
-    
 <form action="item_types" method="post">
   <table class="table table-striped">
     <thead>
       <tr>
 	<th>Item Type</th>
 	<th>Category</th>
+	{% if admin %}<th>Delete Department</th>{% endif %}
       </tr>
     </thead>
     <tbody>
@@ -35,6 +31,4 @@
     </tbody>
   </table>
 </form>
-</div>
-</div>
 {% endblock %}
