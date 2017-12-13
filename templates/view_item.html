@@ -2,7 +2,6 @@
 {% block title %}Edit Item{% endblock %}
 {% block content %}
 
-
 <!--START OF ITEM-->   
 <form action="view_item" method="post">
   <input type="hidden" name="Item_ID" value="{{item.Item_ID}}" />
@@ -67,27 +66,24 @@
 </script>
 
 <div class="jumbotron"><h4>Checkout log</h4></div>
-<div class="table-responsive">
-  <table class="table table-striped">
-    <theader>
-      <tr>
-	<th>Date</th>
-	<th>Employee</th>
-	<th>In/Out</th>
-	<th>Comment</th>
-      </tr>
-    </theader>
-    <tbody>
-      {% for entry in log %}
-      <tr>
-	<td>{{ entry.Log_Date }}</td>
-	<td>{{ entry.Last_Name|e }}, {{ entry.First_Name|e }}</td>
-	<td>{{ entry.Event }}</td>
-	<td>{{ entry.Comment|e }} </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-
+<table class="table table-striped">
+  <theader>
+    <tr>
+      <th>Date</th>
+      <th>Employee</th>
+      <th>In/Out</th>
+      <th>Comment</th>
+    </tr>
+  </theader>
+  <tbody>
+    {% for entry in log %}
+    <tr>
+      <td>{{ entry.Log_Date }}</td>
+      <td>{{ entry.Last_Name|e }}, {{ entry.First_Name|e }}</td>
+      <td>{{ entry.Event }}</td>
+      <td>{{ entry.Comment|e }} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
