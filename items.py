@@ -11,7 +11,7 @@ async def add_item_post(request):
             for k, v
             in data.items()}
 
-    async def option_prompt(table,
+    async def option_prompt(prompt, table,
                             id_column, name_column,
                             where_name=None, where_value=None):
         query = (
@@ -35,21 +35,23 @@ async def add_item_post(request):
                             .render(admin=session_data['admin'],
                                     data=data,
                                     prompt_id=id_column,
+                                    prompt=prompt,
                                     options=options),
                             content_type="text/html")
 
     if 'Location_ID' not in data:
         if 'Department_ID' not in data:
-            return await option_prompt("DEPARTMENT", "Department_ID",
-                                       "Department_Name")
+            return await option_prompt("Department", "DEPARTMENT",
+                                       "Department_ID", "Department_Name")
         else:
-            return await option_prompt("LOCATION",
+            return await option_prompt("Location", "LOCATION",
                                        "Location_ID", "Location_Name",
                                        "Department_ID", data['Department_ID'])
     if 'Category_ID' not in data:
-        return await option_prompt("CATEGORY", "Category_ID", "Category_Name")
+        return await option_prompt("Category", "CATEGORY", "Category_ID",
+                                   "Category_Name")
     if 'Item_Type_ID' not in data:
-        return await option_prompt("ITEM_TYPE",
+        return await option_prompt("Item Type", "ITEM_TYPE",
                                    "Item_Type_ID", "Item_Type_Name",
                                    "Category_ID", data['Category_ID'])
     if 'Item_Name' not in data:

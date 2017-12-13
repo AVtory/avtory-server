@@ -1,13 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Add Equipment{% endblock %}
 {% block content %}
-
-
-
-<!--.container jumbotron mt-3-->
-<div class="container">
- <div class="jumbotron mt-3">
-  <div class="card card-body">
+<div class="jumbotron text-center">
+  <h1>Select {{ prompt }}</h1>
+</div>
 <form action="add_item" method="post">
   {% for k, v in data.items() %}
   <input type="hidden" name="{{ k }}" value="{{ v|e }}" />
@@ -22,14 +18,4 @@
   </div>
 </form>
 
-
-<!--.card card-body-->
-</div>
-
-
-
-
-<!--.container jumbotron mt-3-->
-  </div>
-</div>
 {% endblock %}
