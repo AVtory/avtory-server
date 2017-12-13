@@ -31,7 +31,7 @@ async def add_item_type_post(request):
                 VALUES (%s, %s)''', (data['category_id'], data['item_type']))
             await conn.commit()
 
-    return await add_item_type_get(request)
+    raise web.HTTPFound('/item_types')
 
 
 async def type_list(request, category_id=None):

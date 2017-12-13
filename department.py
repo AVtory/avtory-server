@@ -24,7 +24,7 @@ async def add_department_post(request):
                 '''INSERT INTO DEPARTMENT (department_name)
                 VALUES (%s)''', (data['department'],))
             await conn.commit()
-    return await add_department_get(request)
+    raise web.HTTPFound('/departments')
 
 
 async def department_list(request):

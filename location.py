@@ -59,7 +59,7 @@ async def add_location_post(request):
                 (data['department_id'], data['location']))
             await conn.commit()
 
-    return await add_location_get(request)
+    raise web.HTTPFound('/locations')
 
 
 async def delete_location(request, location_id):

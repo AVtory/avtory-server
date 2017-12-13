@@ -15,7 +15,7 @@ async def add_category_post(request):
                 '''INSERT INTO CATEGORY (Category_Name)
                 VALUES (%s)''', (data['category'],))
             await conn.commit()
-    return await add_category_get(request)
+    raise web.HTTPFound('/categories')
 
 
 async def add_category_get(request):
