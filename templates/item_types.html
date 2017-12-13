@@ -25,9 +25,10 @@
           <tr>
           	<td><button type="submit" class="btn btn-link" name="show_items"
           		    value="{{ item_id }}">{{ item_type|e }}</button></td>
-          	<td>{{ category|e }}</td>
+            <td align="center">
+            {{ category|e }}</td>
           	{% if admin %}
-          	<td>
+            <td align="center">
               <button type="submit" class="btn btn-danger btn-sm"
           		    name="delete_item" value="{{ item_id }}">Delete Item Type</button>
           	</td>
