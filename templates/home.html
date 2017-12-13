@@ -7,67 +7,72 @@
   <p>
     <img class="mx-auto d-block" src="/images/AV.png">
   </p>
-  <h1>Links</h1>
+  <h1>Quick Links</h1>
 
   <!--START TOP CONTAINER FOR LINKS-->  
-  <div class="form-row">
-    <div class="table-responsive">
-      <!--BEGIN TABLE FOR BUTTONS-->
       <table class="table table-striped">
         <!--FIRST ROW OF BUTTONS-->
-        <tr align="center">
-          <td>
-             <!-- Item Drop down button -->
-            <div class="home_buttons">
-            <div class="btn-group">
-              <button type="button" class="btn btn-outline-success"><a href="item_list">Equipment Inventory</a></button>
-              <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href="item_list">View Equipment Inventory</a>
-                  <a class="dropdown-item" href="add_item">Add Item</a>
-                </div>
-              </div>
-            </div><!--./end of Item Button-->
-          </td>
-          <td>
-            {% if admin %}
+         {% if admin %}
+          <tr align="center">
+            <td>
               <!-- Department Drop down button -->
-              <div class="home_buttons">
               <div class="btn-group">
-                <button type="button" class="btn btn-outline-success"><a href="departments">Department</a></button>
-                <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-success btn-sm"><a class="linkButton" href="departments">Department</a></button>
+                <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="add_department">Add Department</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="add_item">View Equipment Inventory</a>
                     <a class="dropdown-item" href="add_item">Add Item</a>
+                    <a class="dropdown-item" href="add_item">View Equipment Inventory</a>
                   </div>
-                </div>
               </div><!--./end of Department Button-->
-              {% endif %}           
-          </td>
+            </td>
           <td> 
           <!-- Category Drop down button -->
-            <div class="home_buttons">
             <div class="btn-group">
-              <button type="button" class="btn btn-outline-success"><a href="categories">Category</a></button>
-              <button type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button type="button" class="btn btn-success btn-sm"><a class="linkButton" href="categories">Category</a></button>
+              <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
               </button>
               <div class="dropdown-menu">
                   <a class="dropdown-item" href="add_category">Add Category</a>
+                  <a class="dropdown-item" href="categories">View All Category</a>
                 </div>
-              </div>
-            </div><!--./end of Category Button-->          
+            </div><!--./end of Category Button-->    
           </td>
         </tr>
+        {% endif %}  
+        <tr align="center">
+          <td>
+              <!-- Item Drop down button -->
+              <div class="btn-group">
+                <button type="button" class="btn btn-success btn-sm"><a class="linkButton" href="item_list">Equipment Inventory</a></button>
+                <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="add_item">Add Item</a>
+                    <a class="dropdown-item" href="item_list">View Equipment Inventory</a>
+                  </div>
+              </div><!--./end of Item Button-->
+            </td>
+          <td>
+          <!-- Item types Drop down button -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-success btn-sm"><a class="linkButton" href="item_types">Item Types</a></button>
+             <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+               <div class="dropdown-menu">
+                 <a class="dropdown-item" href="item_types">Add Item Types</a>
+                 <a class="dropdown-item" href="add_item_type">View Item Types</a>
+              </div>
+            </div><!--./end of Item Button-->
+          </td>
+        </tr>                 
     </table><!--END BUTTON TABLE-->
-  </div><!--END .form-row-->
-</div><!--END .table-responsive-->
 
 <!--BEGIN RECENT DATA CONTAINER-->
 <div class="table-responsive" style="margin-top:50px">
@@ -87,10 +92,10 @@
     <tbody>
       {% for item in items %}
       <tr>
-	<td>{{ item.Date_Added }}</td>
-	<td>{{ item.Item_Name|e }}</td>
-	<td>{{ item.Description|e }}</td>
-	<td>{{ item.Item_Type_Name|e }}</td>
+  <td>{{ item.Date_Added }}</td>
+  <td>{{ item.Item_Name|e }}</td>
+  <td>{{ item.Description|e }}</td>
+  <td>{{ item.Item_Type_Name|e }}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -107,8 +112,8 @@
       <tr>
         <th>Item</th>
         <th>Date</th>
-	      <th>By</th>
-	      <th>Comment</th>
+        <th>By</th>
+        <th>Comment</th>
       </tr>
     </thead>
     <tbody>
@@ -135,9 +140,9 @@
       <tr>
         <th>Item</th>
         <th>Date</th>
-	      <th>Due</th>
-	      <th>By</th>
-	      <th>Comment</th>
+        <th>Due</th>
+        <th>By</th>
+        <th>Comment</th>
       </tr>
     </thead>
     <tbody>
