@@ -1,39 +1,46 @@
 {% extends "base.html" %}
 {% block title %}Locations{% endblock %}
 {% block content %}
-<div class="jumbotron text-center">
-  <h1>Adding a location</h1>
-  <a href="add_location" class="btn btn-primary" role="button">Add Location</a>
+<div class="card card-inverse text-center" style="background-color: #343a40; border-color: #333; color:#FFFFFF;">
+  <div class="card-block">
+    <blockquote class="card-blockquote">
+  		<h1 style="margin-top:25px">Locations</h1>
+  		<a href="add_location" class="btn btn-success btn-sm" role="button" align="center">Add Location</a>
+     </blockquote>
+  </div>
 </div>
 
-<form action="locations" method="post">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-	<th>Location</th>
-	<th>Department</th>
-	{% if admin %}
-	<th>Delete Location</th>
-	{% endif %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for location in locations %}
-      <tr>
-	<td><button type="submit" class="btn btn-link" name="show_items"
-		    value="{{ location.Location_ID }}">
-	    {{ location.Location_Name|e }}</button></td>
-	<td>{{ location.Department_Name|e }}</td>
-	{% if admin %}
-	<td><button type="submit" class="btn btn-danger"
-		    name="delete_location" value="{{ location.Location_ID }}">
-	    Delete {{ location.Location_Name|e }}</button>
-	</td>
-	{% endif %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</form>
-
+<div class="table-responsive">
+  <table class="table table-sm table-striped">
+	<form action="locations" method="post">
+	  <table class="table table-striped">
+	    <thead>
+	      <tr>
+		<th>Location</th>
+		<th>Department</th>
+		{% if admin %}
+		<th>Delete Location</th>
+		{% endif %}
+	      </tr>
+	    </thead>
+	    <tbody>
+	      {% for location in locations %}
+	      <tr>
+		<td><button type="submit" class="btn btn-link" name="show_items"
+			    value="{{ location.Location_ID }}">
+		    {{ location.Location_Name|e }}</button></td>
+		<td>{{ location.Department_Name|e }}</td>
+		{% if admin %}
+		<td><button type="submit" class="btn btn-danger"
+			    name="delete_location" value="{{ location.Location_ID }}">
+		    Delete {{ location.Location_Name|e }}</button>
+		</td>
+		{% endif %}
+	      </tr>
+	      {% endfor %}
+	    </tbody>
+	  </table>
+	</form>
+  </table><!--./table table-sm table-stripe-->
+</div><!--./table-responsive-->
 {% endblock %}
