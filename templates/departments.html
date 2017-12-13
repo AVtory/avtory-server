@@ -2,21 +2,14 @@
 {% block title %}Departments{% endblock %}
 {% block content %}
 {% if admin %}
-<div class="jumbotron">
-	<h1>Adding a Department</h1>
-	<div class="body_container">
-	<center>	
-		<a href="add_department" class="btn btn-primary" role="button">Add Department</a>
-</center>
-{% endif %}
+<div class="jumbotron text-center">
+  <h1>Adding a Department</h1>
+  <a href="add_department" class="btn btn-primary" role="button">Add Department</a>
 </div><!--./jumbotron-->
+{% endif %}
 
-<div class="body_cont">
-	<div class="table-responsive">
-		<table class="table table-sm table-striped">
-	
-	<form action="departments" method="post">
-	<table class="table table-striped">
+<form action="departments" method="post">
+  <table class="table table-striped">
     <thead>
       <tr>
 	<th>Department</th>
@@ -46,7 +39,4 @@
     </tbody>
   </table>
 </form>
-</div>
-</div>
-</div><!--./jumbotron-->
 {% endblock %}
