@@ -14,37 +14,22 @@
 </script>
 
 
-<!--.container jumbotron mt-3 cad card-body-->
+<!--.container cad card-body-->
 <div class="container">
- <div class="jumbotron mt-3">
-  <div class="card card-body">
-  
-<h1>Add Category☁</h1>
-
-  <form action="add_category" method="post">
-  <div class="form-group">
-    <input type="text" id="category_name" name="category" class="form-control" placeholder="Category Name" /><p></p>
-    <center>
-    <button type="submit" id="submit_category" class="btn btn-primary">Add Category</button>
-    <button type="reset" value="reset" class="btn btn-primary">Clear</button><p></p>    <p></p>
-
-<h1></h1>
-    <a class="btn btn-primary" href="categories" role="button">View Category &raquo;</a>
-    <form action="/add_item" method="post">
-    	<button type="submit" class="btn btn-primary">Add Item</button>
-    </form>
-	</center>
-
-    </div>
-  </form>
- </div>
-
-
-
-<!--.container jumbotron mt-3 card card-body-->
-    </div>
-  </div>
-</div>
+  <div class="container">
+  <div class="card card-inverse text-center" style="background-color: #343a40; border-color: #333; color:#FFFFFF; padding: 25px;">
+    <div class="card-block">
+      <blockquote class="card-blockquote">
+        <h2 style="margin-top:20px">Add Category</h2>
+      </blockquote>
+        <form action="add_category" method="post">
+          <input type="text" id="category_name" name="category" class="form-control" placeholder="Category Name" /><p></p>
+          <button type="submit" id="submit_category" class="btn btn-success btn-sm">Add Category</button>
+          <button type="reset" value="reset" class="btn btn-success btn-sm">Clear</button><p></p>    <p></p>
+        </form>
+     </div>
+   </div><!--.card-->
+</div><!--.container card card-body-->
 
 <!-- Modal: the id of the parent div MUST have the same name as the data-target in the trigger -->
 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">

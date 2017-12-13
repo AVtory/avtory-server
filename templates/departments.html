@@ -6,7 +6,8 @@
   <div class="card-block">
     <blockquote class="card-blockquote">
   		<h1 style="margin-top:25px">Departments</h1>
-  	<a href="add_department" class="btn btn-success btn-sm" role="button" align="center">Add Department</a>
+  		<a href="add_department" class="btn btn-success btn-sm" role="button" align="center">Add Department</a>
+     </blockquote>
   </div>
 </div>
 {% endif %}
@@ -34,7 +35,7 @@
 			    Show {{ department_name|e }} equipment</button></td>
 			{% if admin %}
 			<td align="center">
-				<button type="submit" class="btn btn-danger"
+				<button type="submit" class="btn btn-danger btn-sm"
 			    name="delete_department" value="{{ department_id }}">
 		    	Delete {{ department_name|e }}
 			</button>
@@ -46,5 +47,4 @@
 	</form>	  
 </table><!--./table table-sm table-stripe-->
 </div><!--./table-responsive-->
-
 {% endblock %}

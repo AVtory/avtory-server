@@ -1,34 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Item Types{% endblock %}
 {% block content %}
-<div class="jumbotron text-center">
-  <h1>Adding an Item Type</h1>
-  <a href="add_item_type" class="btn btn-primary" role="button">Add Item Type</a>
+<div class="card card-inverse text-center" style="background-color: #343a40; border-color: #333; color:#FFFFFF;">
+  <div class="card-block">
+    <blockquote class="card-blockquote">
+      <h1 style="margin-top:25px">Item Types</h1>
+      <a href="add_item_type" class="btn btn-success btn-sm" role="button" align="center">Add Item Type</a>
+     </blockquote>
+  </div>
 </div>
-
-<form action="item_types" method="post">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-	<th>Item Type</th>
-	<th>Category</th>
-	{% if admin %}<th>Delete Department</th>{% endif %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for item_id, category, item_type in item_types %}
-      <tr>
-	<td><button type="submit" class="btn btn-link" name="show_items"
-		    value="{{ item_id }}">{{ item_type|e }}</button></td>
-	<td>{{ category|e }}</td>
-	{% if admin %}
-	<td><button type="submit" class="btn btn-danger"
-		    name="delete_item" value="{{ item_id }}">Delete Item Type</button>
-	</td>
-	{% endif %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</form>
+<div class="table-responsive">
+  <table class="table table-sm table-striped">
+    <form action="item_types" method="post">
+      <table class="table table-striped">
+        <thead>
+          <tr align="center">
+          	<th>Item Type</th>
+          	<th>Category</th>
+          	{% if admin %}<th>Delete Department</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for item_id, category, item_type in item_types %}
+          <tr>
+          	<td><button type="submit" class="btn btn-link" name="show_items"
+          		    value="{{ item_id }}">{{ item_type|e }}</button></td>
+          	<td>{{ category|e }}</td>
+          	{% if admin %}
+          	<td>
+              <button type="submit" class="btn btn-danger btn-sm"
+          		    name="delete_item" value="{{ item_id }}">Delete Item Type</button>
+          	</td>
+          	{% endif %}
+          </tr>
+          {% endfor %}
+      </tbody>
+  </form>   
+</table><!--./table table-sm table-stripe-->
+</div><!--./table-responsive-->
 {% endblock %}

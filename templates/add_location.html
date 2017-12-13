@@ -12,33 +12,28 @@
     });
 </script>
 
-
 <!--.container jumbotron mt-3 cad card-body-->
 <div class="container">
  <div class="jumbotron mt-3">
   <div class="card card-body">
 
   <h1>Add Location</h1>
-
-<!--add_location-->
-<form action="add_location" method="post">
-  <div class="form-group" style="padding:30px;">
-    <select class="form-control" name="department_id">
-      <option value="">Select Department</option>
-      {% for department_id, department_name in departments %}
-      <option value="{{ department_id }}">{{ department_name|e }}</option>
-      {% endfor %}
-    </select>
-    <input type="text" id="location_name" name="location" class="form-control" placeholder="Location Name" /><br/>
-    <center>
-      <button type="submit" id="submit_location" class="btn btn-primary">Add Location</button>
-      <button type="reset" value="reset" class="btn btn-primary">Clear</button><p></p>    <p></p>
-    </center>
-<h1></h1>
-
+  <!--add_location-->
+  <form action="add_location" method="post">
+    <div class="form-group" style="padding:30px;">
+      <select class="form-control" name="department_id">
+        <option value="">Select Department</option>
+        {% for department_id, department_name in departments %}
+        <option value="{{ department_id }}">{{ department_name|e }}</option>
+        {% endfor %}
+      </select>
+      <input type="text" id="location_name" name="location" class="form-control" placeholder="Location Name" /><br/>
+      <center>
+        <button type="submit" id="submit_location" class="btn btn-primary">Add Location</button>
+        <button type="reset" value="reset" class="btn btn-primary">Clear</button><p></p>    <p></p>
+      </center>
   </div>
 </form>
-
 
 <!--.container jumbotron mt-3 card card-body-->
     </div>

@@ -1,21 +1,27 @@
 {% extends "base.html" %}
 {% block title %}Add Equipment{% endblock %}
 {% block content %}
-<div class="jumbotron text-center">
-  <h1>Select {{ prompt }}</h1>
+<div class="container">
+  <div class="card card-inverse text-center" style="background-color: #343a40; border-color: #333; color:#FFFFFF; padding: 25px;">
+    <div class="card-block">
+      <blockquote class="card-blockquote">
+        <h2 style="margin-top:20px">Select {{ prompt }}</h2>
+        <form action="add_item" method="post">
+          {% for k, v in data.items() %}
+          <input type="hidden" name="{{ k }}" value="{{ v|e }}" />
+          {% endfor %}
+          <div class="form-group">
+            <select class="form-control" name="{{ prompt_id }}">
+              {% for id, name in options %}
+              <option value="{{ id }}">{{ name|e }}</option>
+              {% endfor %}
+            </select><br/>
+            <button type="submit" class="btn btn-success btn-sm">Next</button>
+          </div>
+        </form>
+     </div>
+   </div><!--.card-->
+<!--.container jumbotron mt-3 card card-body-->
 </div>
-<form action="add_item" method="post">
-  {% for k, v in data.items() %}
-  <input type="hidden" name="{{ k }}" value="{{ v|e }}" />
-  {% endfor %}
-  <div class="form-group">
-    <select class="form-control" name="{{ prompt_id }}">
-      {% for id, name in options %}
-      <option value="{{ id }}">{{ name|e }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit" class="btn btn-primary">Next</button>
-  </div>
-</form>
 
 {% endblock %}
