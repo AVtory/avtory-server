@@ -54,12 +54,11 @@
     </div>
   </div>
   {% endif %}
+  {% if action == "Checkin" %}
+  <p>Checked out to {{ checkout.Last_Name|e }}, {{ checkout.First_Name|e }}</p>
+  <p>Due {{ checkout.Due_Date }}</p>
+  {% endif %}
 </form>
-
-{% if action == "Checkin" %}
-<p>Checked out to {{ checkout.Last_Name|e }}, {{ checkout.First_Name|e }}</p>
-<p>Due {{ checkout.Due_Date }}</p>
-{% endif %}
 
 <div id="qrcode" />
 <script src="js/qrcode.js"></script>
