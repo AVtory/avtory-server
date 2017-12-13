@@ -7,3 +7,4 @@ Requirements:
 * [jinja2](http://jinja.pocoo.org/)
 * [aiohttp](https://github.com/aio-libs/aiohttp)
 * [aiomysql](https://github.com/aio-libs/aiomysql)
+* [qrcodejs](https://davidshimjs.github.io/qrcodejs/)
