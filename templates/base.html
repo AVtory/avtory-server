@@ -40,7 +40,7 @@
           <li class="nav-item active"><a class="nav-link" href="item_list">Equipment</a></li>
           <!--ADMIN FUNCTIONALITY ONLY-->
           {% if admin %}
-            <li class="nav-item active"><a class="nav-link" href="users">⚙</a></li>
+            <li class="nav-item active"><a class="nav-link" href="users"><i class="material-icons">settings</i></a></li>
           {% endif %}
         </ul>
         <a href="#" data-toggle="modal" data-target="#logoutModal"> 
@@ -100,14 +100,14 @@
     </a>
     <!--PAGE REDIRECTION-->
     <div class="dropdown-menu" aria-labelledby="dropdown10">
-      <a class="dropdown-item" href="/">Home 🏠</a>
-      <a class="dropdown-item" href="departments">Departments 🏢</a>
+      <a class="dropdown-item" href="/">Home</a>
+      <a class="dropdown-item" href="departments">Departments</a>
       <a class="dropdown-item" href="locations">Locations</a>
       <a class="dropdown-item" href="categories">Categories</a>
       <a class="dropdown-item" href="item_types">Item Types</a>
       <a class="dropdown-item" href="item_list">Equipment</a>
       {% if admin %}
-      <a class="dropdown-item" href="users">⚙️</a>
+      <a class="dropdown-item" href="users"><i class="material-icons">settings</i></a>
 	    {% endif %}
 	  </div>
   </li>
