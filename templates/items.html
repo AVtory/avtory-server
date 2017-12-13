@@ -2,64 +2,59 @@
 {% block title %}Equipment List{% endblock %}
 {% block content %}
 
-<div class="body_container">
-	<div class="jumbotron">
-		<h1>Equipment Inventory</h1>
-		<center>
-	     <form action="/add_item" method="post">
-	     <button type="submit" class="btn btn-primary">
-	       <i class="material-icons">cloud</i> Add Item
-	   	</button>
-
-	    </form>
-	</center>
-</div><!--./body_container-->
-</div><!--./jumbotron-->
+<div class="jumbotron text-center">
+  <h1>Equipment Inventory</h1>
+  <form action="/add_item" method="post">
+    <button type="submit" class="btn btn-primary">
+      <i class="material-icons">cloud</i> Add Item
+    </button>
+  </form>
+</div>
 
 <div class="table-responsive">
- <table class="table table-sm table-striped">
-   <form action="/view_item" method="post">
-     <input type="hidden" name="action" value="show" />
-     <theader>
-	  <tr>
-	    <th>EDIT</th>
-	    <th>Item Name</th>
-	    <th>Description</th>
-	    <th>Department</th>
-	    <th>Model#</th>
-	    <th>Serial#</th>
-	    <th>Category</th>
-	    <th>Item Type</th>
-	    <th>Location</th>
-	    <th>Date Added</th>
-	    <th>In Service</th>
+  <table class="table table-sm table-striped">
+    <form action="/view_item" method="post">
+      <input type="hidden" name="action" value="show" />
+      <theader>
+	<tr>
+	  <th>EDIT</th>
+	  <th>Item Name</th>
+	  <th>Description</th>
+	  <th>Department</th>
+	  <th>Model#</th>
+	  <th>Serial#</th>
+	  <th>Category</th>
+	  <th>Item Type</th>
+	  <th>Location</th>
+	  <th>Date Added</th>
+	  <th>In Service</th>
 	  <!--
-	    <th>Check Out</th>
-	    <th>Check In</th>
+	  <th>Check Out</th>
+	  <th>Check In</th>
 	  -->
-	  </tr>
-	</theader>
-	<tbody>
-	  {% for item in items %}
-	  <tr>
-	  	<td>
-	      <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Edit</button>
-	    </td>
-	    <td>{{ item.Item_Name|e }}</td>
-	    <td>{{ item.Description|e }}</td>
-	    <td>{{ item.Department_Name|e }}</td>
-	    <td>{{ item.Model|e }}</td>
-	    <td>{{ item.Serial|e }}</td>
-	    <td>{{ item.Category_Name|e }}</td>
-	    <td>{{ item.Item_Type_Name|e }}</td>
-	    <td>{{ item.Location_Name|e }}</td>
-	    <td>{{ item.Date_Added|e }}</td>
-	    <td>{{ item.In_Service|e }}</td>	  
-	  </tr>
-	  {% endfor %}
-	 </tbody>
-     </table>	
-    </div>
-</form>
+	</tr>
+      </theader>
+      <tbody>
+	{% for item in items %}
+	<tr>
+	  <td>
+	    <button type="submit" class="btn btn-primary" name="Item_ID" value="{{ item.Item_ID }}">Edit</button>
+	  </td>
+	  <td>{{ item.Item_Name|e }}</td>
+	  <td>{{ item.Description|e }}</td>
+	  <td>{{ item.Department_Name|e }}</td>
+	  <td>{{ item.Model|e }}</td>
+	  <td>{{ item.Serial|e }}</td>
+	  <td>{{ item.Category_Name|e }}</td>
+	  <td>{{ item.Item_Type_Name|e }}</td>
+	  <td>{{ item.Location_Name|e }}</td>
+	  <td>{{ item.Date_Added|e }}</td>
+	  <td>{{ item.In_Service|e }}</td>
+	</tr>
+	{% endfor %}
+      </tbody>
+    </form>
+  </table>
+</div>
 {% endblock %}
 
