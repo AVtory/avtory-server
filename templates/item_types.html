@@ -9,34 +9,30 @@
      </blockquote>
   </div>
 </div>
-<div class="table-responsive">
+<form action="item_types" method="post">
   <table class="table table-sm table-striped">
-    <form action="item_types" method="post">
-      <table class="table table-striped">
-        <thead>
-          <tr align="center">
-          	<th>Item Type</th>
-          	<th>Category</th>
-          	{% if admin %}<th>Delete Department</th>{% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for item_id, category, item_type in item_types %}
-          <tr>
-          	<td><button type="submit" class="btn btn-link" name="show_items"
-          		    value="{{ item_id }}">{{ item_type|e }}</button></td>
-            <td align="center">
-            {{ category|e }}</td>
-          	{% if admin %}
-            <td align="center">
-              <button type="submit" class="btn btn-danger btn-sm"
-          		    name="delete_item" value="{{ item_id }}">Delete Item Type</button>
-          	</td>
-          	{% endif %}
-          </tr>
-          {% endfor %}
-      </tbody>
-  </form>   
-</table><!--./table table-sm table-stripe-->
-</div><!--./table-responsive-->
+    <thead>
+      <tr align="center">
+        <th>Item Type</th>
+        <th>Category</th>
+        {% if admin %}<th>Delete Department</th>{% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for item_id, category, item_type in item_types %}
+      <tr>
+        <td><button type="submit" class="btn btn-link" name="show_items"
+          	    value="{{ item_id }}">{{ item_type|e }}</button></td>
+        <td align="center">{{ category|e }}</td>
+        {% if admin %}
+        <td align="center">
+          <button type="submit" class="btn btn-danger btn-sm"
+          	  name="delete_item" value="{{ item_id }}">Delete Item Type</button>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table><!--./table table-sm table-stripe-->
+</form>
 {% endblock %}

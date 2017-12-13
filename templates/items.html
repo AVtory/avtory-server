@@ -4,56 +4,54 @@
 <div class="card card-inverse text-center" style="background-color: #343a40; border-color: #333; color:#FFFFFF;">
   <div class="card-block">
     <blockquote class="card-blockquote">
-  		<h1 style="margin-top:25px">Equipment Inventory</h1>
-  		 <form action="/add_item" method="post">
-		    <button type="submit" class="btn btn-success btn-sm">
-		      <i class="material-icons">cloud</i> Add Item
-		    </button>
-		 </form>
-     </blockquote>
+      <h1 style="margin-top:25px">Equipment Inventory</h1>
+      <form action="/add_item" method="post">
+	<button type="submit" class="btn btn-success btn-sm">
+	  <i class="material-icons">cloud</i> Add Item
+	</button>
+      </form>
+    </blockquote>
   </div>
 </div>
 
-<div class="table-responsive">
-  <table class="table table-sm table-striped">
-    <form action="/view_item" method="post">
-      <input type="hidden" name="action" value="show" />
-      <thead>
-          <tr align="center" style="font-size: 12px;">
-			  <th>EDIT</th>
-			  <th>Item Name</th>
-			  <th>Description</th>
-			  <th>Department</th>
-			  <th>Model#</th>
-			  <th>Serial#</th>
-			  <th>Category</th>
-			  <th>Item Type</th>
-			  <th>Location</th>
-			  <th>Date Added</th>
-			  <th>In Service</th>
-			</tr>
-		</thead>
-      <tbody>
-	{% for item in items %}
-	<tr>
-		<td align="center">
-	    	<button type="submit" class="btn btn-primary btn-sm" name="Item_ID" value="{{ item.Item_ID }}">Edit</button>
-	  	</td>
-		  <td>{{ item.Item_Name|e }}</td>
-		  <td>{{ item.Description|e }}</td>
-		  <td>{{ item.Department_Name|e }}</td>
-		  <td>{{ item.Model|e }}</td>
-		  <td>{{ item.Serial|e }}</td>
-		  <td>{{ item.Category_Name|e }}</td>
-		  <td>{{ item.Item_Type_Name|e }}</td>
-		  <td>{{ item.Location_Name|e }}</td>
-		  <td>{{ item.Date_Added|e }}</td>
-		  <td>{{ item.In_Service|e }}</td>
-	</tr>
-	{% endfor %}
-      </tbody>
-	</form>	  
+<table class="table table-sm table-striped">
+  <form action="/view_item" method="get">
+    <input type="hidden" name="action" value="show" />
+    <thead>
+      <tr align="center" style="font-size: 12px;">
+	<th>EDIT</th>
+	<th>Item Name</th>
+	<th>Description</th>
+	<th>Department</th>
+	<th>Model#</th>
+	<th>Serial#</th>
+	<th>Category</th>
+	<th>Item Type</th>
+	<th>Location</th>
+	<th>Date Added</th>
+	<th>In Service</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+	<td align="center">
+	  <button type="submit" class="btn btn-primary btn-sm" name="Item_ID" value="{{ item.Item_ID }}">Edit</button>
+	</td>
+	<td>{{ item.Item_Name|e }}</td>
+	<td>{{ item.Description|e }}</td>
+	<td>{{ item.Department_Name|e }}</td>
+	<td>{{ item.Model|e }}</td>
+	<td>{{ item.Serial|e }}</td>
+	<td>{{ item.Category_Name|e }}</td>
+	<td>{{ item.Item_Type_Name|e }}</td>
+	<td>{{ item.Location_Name|e }}</td>
+	<td>{{ item.Date_Added|e }}</td>
+	<td>{{ item.In_Service|e }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </form>	  
 </table><!--./table table-sm table-stripe-->
-</div><!--./table-responsive-->
 {% endblock %}
 

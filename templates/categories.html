@@ -5,46 +5,43 @@
 <div class="card card-inverse text-center" style="background-color: #343a40; border-color: #333; color:#FFFFFF;">
   <div class="card-block">
     <blockquote class="card-blockquote">
-  		<h1 style="margin-top:25px">Categories</h1>
-  		<a href="add_category" class="btn btn-success btn-sm" role="button" align="center">Add Category</a>
-     </blockquote>
+      <h1 style="margin-top:25px">Categories</h1>
+      <a href="add_category" class="btn btn-success btn-sm" role="button" align="center">Add Category</a>
+    </blockquote>
   </div>
 </div>
 {% endif %}
 
-<div class="table-responsive">
+<form id="category_form" action="categories" method="post">
   <table class="table table-sm table-striped">
-	<form id="category_form" action="categories" method="post">
-	  <table class="table table-striped">
-	    <thead>
-          <tr align="center">
-			<th>Category</th>
-			<th>Show Item Types</th>
-			<th>Show Equipment</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-	      {% for category_id, category_name in categories.items() %}
-	      <tr>
-		<td>{{ category_name|e }}</td>
-		<td><button type="submit" class="btn btn-link"
-			    name="show_item_types" value="{{ category_id }}">
-		    Show {{ category_name|e }} item types
-		</button></td>
-		<td><button type="submit" class="btn btn-link"
-			    name="show_equipment" value="{{ category_id }}">
-		    Show {{category_name|e}} equipment
-		</button></td>
-		{% if admin %}			
-		<td align="center">
-			<button type="submit" class="btn btn-danger" name="delete_category" value="{{ category_id }}">Delete Category</button>
-		</td>
-		{% endif %}
-	     </tr>
-	    {% endfor%}
-	    </tbody>
-	</form>
-	</table><!--./table table-sm table-stripe-->
-</div><!--./table-responsive-->
+    <thead>
+      <tr align="center">
+	<th>Category</th>
+	<th>Show Item Types</th>
+	<th>Show Equipment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for category_id, category_name in categories.items() %}
+      <tr>
+	<td>{{ category_name|e }}</td>
+	<td><button type="submit" class="btn btn-link"
+		    name="show_item_types" value="{{ category_id }}">
+	    Show {{ category_name|e }} item types
+	</button></td>
+	<td><button type="submit" class="btn btn-link"
+		    name="show_equipment" value="{{ category_id }}">
+	    Show {{category_name|e}} equipment
+	</button></td>
+	{% if admin %}			
+	<td align="center">
+	  <button type="submit" class="btn btn-danger" name="delete_category" value="{{ category_id }}">Delete Category</button>
+	</td>
+	{% endif %}
+      </tr>
+      {% endfor%}
+    </tbody>
+  </table>
+</form>
 
 {% endblock %}
